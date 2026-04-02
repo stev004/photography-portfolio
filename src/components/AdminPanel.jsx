@@ -257,11 +257,24 @@ function PhotoRow({ photo, idx, type, expanded, isDragOver, onToggle, onUpdate, 
 // ─── Export modal ─────────────────────────────────────────────────────────────
 function ExportModal({ data, onClose }) {
   const [copied, setCopied] = useState(false)
+
   const copy = () => {
     navigator.clipboard.writeText(data).then(() => {
       setCopied(true); setTimeout(() => setCopied(false), 2000)
     })
   }
+
+  // Downloads the file directly — user can then drop it into the project and push
+  const download = () => {
+    const blob = new Blob([data], { type: 'text/javascript' })
+    const url  = URL.createObjectURL(blob)
+    const a    = document.createElement('a')
+    a.href     = url
+    a.download = 'photos.js'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <motion.div
       className="absolute inset-0 z-10 flex items-center justify-center p-8"
@@ -271,26 +284,44 @@ function ExportModal({ data, onClose }) {
     >
       <div
         className="w-full max-w-3xl flex flex-col"
-        style={{ maxHeight: '75vh', background: '#0d0d0d', border: '1px solid rgba(0,229,255,0.15)' }}
+        style={{ maxHeight: '80vh', background: '#0d0d0d', border: '1px solid rgba(0,229,255,0.15)' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div>
-            <p className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(0,229,255,0.6)' }}>EXPORT DATA</p>
-            <p className="font-mono text-[8px] tracking-widest mt-0.5" style={{ color: 'rgba(255,255,255,0.2)' }}>
-              Copy → paste into <span style={{ color: 'rgba(0,229,255,0.4)' }}>src/data/photos.js</span> to make changes permanent
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <AdminBtn label={copied ? '✓ COPIED' : 'COPY ALL'} onClick={copy} accent />
-            <AdminBtn label="CLOSE" onClick={onClose} />
+        {/* Header */}
+        <div className="px-4 py-3 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(0,229,255,0.6)' }}>
+                EXPORT DATA — SYNC TO ALL DEVICES
+              </p>
+              {/* Step-by-step sync instructions */}
+              <div className="mt-2 space-y-0.5">
+                {[
+                  '1. Click DOWNLOAD — saves photos.js to your computer',
+                  '2. Replace  src/data/photos.js  in your project with the downloaded file',
+                  '3. git add . → git commit → git push',
+                  '4. Vercel auto-deploys → changes appear on every device',
+                ].map(step => (
+                  <p key={step} className="font-mono text-[8px] tracking-widest" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                    {step}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <AdminBtn label="DOWNLOAD" onClick={download} accent />
+              <AdminBtn label={copied ? '✓ COPIED' : 'COPY ALL'} onClick={copy} />
+              <AdminBtn label="CLOSE" onClick={onClose} />
+            </div>
           </div>
         </div>
+
+        {/* Preview of the file content */}
         <textarea
           readOnly
           value={data}
           className="flex-1 font-mono text-[10px] p-4 outline-none resize-none"
-          style={{ background: 'transparent', color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}
+          style={{ background: 'transparent', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}
         />
       </div>
     </motion.div>

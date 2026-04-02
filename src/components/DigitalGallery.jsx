@@ -52,15 +52,19 @@ function DigitalLightbox({ photo, onClose }) {
           draggable={false}
         />
         <div className="p-4 md:p-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="flex justify-between items-start">
+          {/* Mobile: title above specs. Desktop: side-by-side. */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3">
             <div>
               <h2 className="font-mono text-sm text-white/75 tracking-wide">{photo.title}</h2>
               <p className="font-mono text-[10px] text-white/30 mt-1 uppercase tracking-widest">{photo.subject}</p>
             </div>
-            <div className="text-right space-y-0.5">
-              <p className="font-mono text-[10px] text-white/30">[LN: {photo.lens}] [AP: f/{photo.aperture.replace('f/','')}]</p>
-              <p className="font-mono text-[10px] text-white/30">[SH: {photo.shutter}] [ISO: {photo.iso}]</p>
-              <p className="font-mono text-[10px]" style={{ color: 'rgba(0,229,255,0.45)' }}>[STACK: {photo.stack}]</p>
+            {/* 2-col grid on mobile keeps specs compact; single-col right-aligned on desktop */}
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-1 md:text-right">
+              <p className="font-mono text-[10px] text-white/30">[LN: {photo.lens}]</p>
+              <p className="font-mono text-[10px] text-white/30">[AP: f/{photo.aperture.replace('f/','')}]</p>
+              <p className="font-mono text-[10px] text-white/30">[SH: {photo.shutter}]</p>
+              <p className="font-mono text-[10px] text-white/30">[ISO: {photo.iso}]</p>
+              <p className="font-mono text-[10px] col-span-2 md:col-span-1" style={{ color: 'rgba(0,229,255,0.45)' }}>[STACK: {photo.stack}]</p>
             </div>
           </div>
           <button
@@ -160,22 +164,20 @@ function MobileTopNav({ onNavigate }) {
         <span>INDEX</span>
       </button>
 
-      {/* Section label */}
-      <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>
-        Macro Lab
-      </span>
-
-      {/* Brand name */}
+      {/* Brand name — centred */}
       <button
         onClick={() => onNavigate('landing')}
-        style={{ color: 'rgba(255,255,255,0.65)' }}
+        style={{ color: 'rgba(255,255,255,0.75)' }}
       >
-        <span
-          style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, letterSpacing: '0.08em' }}
-        >
+        <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, letterSpacing: '0.08em' }}>
           STEVEN MATSON
         </span>
       </button>
+
+      {/* Section label — right */}
+      <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>
+        Digital
+      </span>
     </div>
   )
 }
@@ -186,11 +188,12 @@ export default function DigitalGallery({ onNavigate }) {
   const [selected, setSelected] = useState(null)
   const isMobile = useIsMobile()
 
-  // Enable scroll-snap while this gallery is mounted, clean up on unmount
+  // mandatory on desktop (precise row-by-row). proximity on mobile so the
+  // page doesn't auto-snap on load (scroll=0 is not a snap point).
   useEffect(() => {
-    document.documentElement.style.scrollSnapType = 'y mandatory'
+    document.documentElement.style.scrollSnapType = isMobile ? 'y proximity' : 'y mandatory'
     return () => { document.documentElement.style.scrollSnapType = '' }
-  }, [])
+  }, [isMobile])
 
   const { digitalData } = useAdmin()
   const filtered = activeFilter === 'All'

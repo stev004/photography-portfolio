@@ -29,8 +29,9 @@ export default function Navigation({ current, onNavigate }) {
           <span>&larr;</span> Index
         </motion.button>
 
+        {/* Desktop: section label centred */}
         <span
-          className="text-[11px] tracking-[0.45em] uppercase"
+          className="hidden md:block text-[11px] tracking-[0.45em] uppercase"
           style={{
             fontFamily: film
               ? "'Cormorant Garamond', Georgia, serif"
@@ -41,7 +42,27 @@ export default function Navigation({ current, onNavigate }) {
           {film ? 'Film / Analog' : 'Digital / Nature & Macro'}
         </span>
 
-        <span className="w-14" />
+        {/* Mobile: brand name centred */}
+        <span
+          className="md:hidden"
+          style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, letterSpacing: '0.08em', color: film ? '#9a8a72' : '#22d3ee' }}
+        >
+          STEVEN MATSON
+        </span>
+
+        {/* Desktop: balance spacer */}
+        <span className="hidden md:block w-14" />
+
+        {/* Mobile: page title on the right */}
+        <span
+          className="md:hidden text-[10px] tracking-[0.3em] uppercase"
+          style={{
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            color: film ? '#c4b49a' : '#374151',
+          }}
+        >
+          {film ? 'Film' : 'Digital'}
+        </span>
       </div>
     </header>
   )

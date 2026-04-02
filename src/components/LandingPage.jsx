@@ -88,11 +88,18 @@ export default function LandingPage({ onEnter }) {
         onClick={() => onEnter('film')}
         style={{ backgroundColor: '#faf8f5' }}
       >
-        <motion.div
+        {/* CSS transition — avoids Framer Motion writing transform values every frame,
+             which caused a visible glitch when crossing between the two panels. */}
+        <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${filmBg})`, filter: 'grayscale(100%)' }}
-          animate={{ opacity: hovered === 'film' ? 0.22 : 0.09, scale: hovered === 'film' ? 1.05 : 1 }}
-          transition={{ duration: 0.8 }}
+          style={{
+            backgroundImage: `url(${filmBg})`,
+            filter: 'grayscale(100%)',
+            opacity: hovered === 'film' ? 0.22 : 0.09,
+            transform: hovered === 'film' ? 'scale(1.05)' : 'scale(1)',
+            transition: 'opacity 0.8s ease, transform 0.8s ease',
+            willChange: 'transform',
+          }}
         />
         <div className="film-grain" />
 
@@ -165,11 +172,15 @@ export default function LandingPage({ onEnter }) {
         onClick={() => onEnter('digital')}
         style={{ backgroundColor: '#050505' }}
       >
-        <motion.div
+        <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${digitalBg})` }}
-          animate={{ opacity: hovered === 'digital' ? 0.25 : 0.08, scale: hovered === 'digital' ? 1.05 : 1 }}
-          transition={{ duration: 0.8 }}
+          style={{
+            backgroundImage: `url(${digitalBg})`,
+            opacity: hovered === 'digital' ? 0.25 : 0.08,
+            transform: hovered === 'digital' ? 'scale(1.05)' : 'scale(1)',
+            transition: 'opacity 0.8s ease, transform 0.8s ease',
+            willChange: 'transform',
+          }}
         />
 
         {/* Grid pattern */}

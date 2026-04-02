@@ -100,11 +100,14 @@ function FilmCell({ photo, index, onSelect, spanTwoRows = false }) {
           src={photo.src}
           alt={photo.title}
           loading="lazy"
-          className="w-full h-auto md:h-full object-cover transition-transform duration-700 ease-spring group-hover:scale-105"
+          className="w-full h-auto md:h-full object-cover transition-transform duration-700 ease-spring md:group-hover:scale-105"
           onLoad={() => setLoaded(true)}
           draggable={false}
         />
-        <HoverCaption photo={photo} />
+        {/* Caption overlay — desktop hover only; mobile always shows caption below the image */}
+        <div className="hidden md:block">
+          <HoverCaption photo={photo} />
+        </div>
       </div>
 
       {/* Mobile caption — always visible below the image */}
@@ -210,11 +213,12 @@ export default function FilmGallery() {
   const [filter, setFilter]     = useState('all')
   const isMobile = useIsMobile()
 
-  // Enable scroll-snap while this gallery is mounted, clean up on unmount
+  // mandatory on desktop (precise row-by-row). proximity on mobile so the
+  // page doesn't auto-snap on load (scroll=0 is not a snap point).
   useEffect(() => {
-    document.documentElement.style.scrollSnapType = 'y mandatory'
+    document.documentElement.style.scrollSnapType = isMobile ? 'y proximity' : 'y mandatory'
     return () => { document.documentElement.style.scrollSnapType = '' }
-  }, [])
+  }, [isMobile])
 
   const { filmData } = useAdmin()
   const filters  = ['all', 'portrait', 'landscape']
