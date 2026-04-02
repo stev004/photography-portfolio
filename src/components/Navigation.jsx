@@ -13,7 +13,7 @@ export default function Navigation({ current, onNavigate }) {
         borderBottom: film ? '1px solid #ede5d8' : '1px solid rgba(34,211,238,0.07)',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-3 md:py-6 flex items-center justify-between">
+      <div className="relative max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-3 md:py-6 flex items-center justify-between">
         <motion.button
           onClick={() => onNavigate('landing')}
           className="flex items-center gap-3 text-[11px] tracking-[0.3em] uppercase cursor-pointer border-none bg-transparent min-h-[44px] min-w-[44px] px-1"
@@ -42,9 +42,10 @@ export default function Navigation({ current, onNavigate }) {
           {film ? 'Film / Analog' : 'Digital / Nature & Macro'}
         </span>
 
-        {/* Mobile: brand name centred */}
+        {/* Mobile: brand name — absolute so it sits at exactly the container's horizontal centre
+             regardless of the unequal widths of the ← Index button and the page-title label */}
         <span
-          className="md:hidden"
+          className="md:hidden absolute left-1/2 -translate-x-1/2 pointer-events-none"
           style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, letterSpacing: '0.08em', color: film ? '#9a8a72' : '#22d3ee' }}
         >
           STEVEN MATSON

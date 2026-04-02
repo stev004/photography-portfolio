@@ -209,8 +209,11 @@ export default function DigitalGallery({ onNavigate }) {
       {/* Mobile top nav (hidden on desktop) */}
       <MobileTopNav onNavigate={onNavigate} />
 
-      {/* Main content — offset by sidebar on desktop, padded top by mobile nav */}
-      <main style={{ marginLeft: isMobile ? 0 : SIDEBAR_W }}>
+      {/* Main content — offset by sidebar on desktop.
+           On mobile: paddingTop = MOBILE_NAV_H so the sticky filter bar's natural
+           position at scroll=0 sits exactly at its sticky threshold (top:56px).
+           This makes the first DigitalCard's snap resolve to 0 with no auto-jump. */}
+      <main style={{ marginLeft: isMobile ? 0 : SIDEBAR_W, paddingTop: isMobile ? MOBILE_NAV_H : 0 }}>
 
         {/* ── Top filter bar ── */}
         <div
@@ -256,12 +259,7 @@ export default function DigitalGallery({ onNavigate }) {
         {/* ── Photo grid ──
             Mobile: single column floating cards with horizontal padding
             Desktop: 3-column CSS grid — flows LEFT→RIGHT (row by row)     */}
-        {/* Mobile: paddingTop 56px pushes first card to doc-pos 124px
-                   (filterBar 68px + this 56px), so its snap resolves to 0. */}
-        <div
-          className={isMobile ? '' : 'p-4'}
-          style={isMobile ? { paddingTop: 56 } : undefined}
-        >
+        <div className={isMobile ? '' : 'p-4'}>
           <motion.div
             key={activeFilter}
             initial={{ opacity: 0 }}
