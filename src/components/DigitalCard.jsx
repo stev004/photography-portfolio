@@ -47,14 +47,16 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
       style={{
         // Desktop: fixed aspect-ratio so all cards sit at the same height in the grid
         aspectRatio: isMobile ? undefined : '3 / 4',
-        // Mobile: floating card with natural image height
-        marginBottom: isMobile ? 16 : 0,
-        borderRadius: isMobile ? 4 : 0,
-        minHeight: 180, // ensures lazy loading triggers even before image loads
-        // scrollMarginTop = sticky header height so center snap lands in the content area.
-        // Desktop: filter bar py-3 (24px) + min-h-[44px] content = 68px
-        // Mobile:  mobile nav (56px) + filter bar (68px) = 124px
-        scrollSnapAlign: 'center',
+        // Mobile: exactly one screen tall (below nav + filter bar).
+        //   height = 100svh − (mobileNav 56px + filterBar 68px) = 100svh − 124px
+        //   Edge-to-edge (no radius, no margin) — snap handles the spacing.
+        ...(isMobile ? { height: 'calc(100svh - 124px)' } : {}),
+        marginBottom: 0,
+        borderRadius: 0,
+        minHeight: 180,
+        // Desktop: snap:center, scrollMarginTop = filter bar height (68px)
+        // Mobile:  snap:start, scrollMarginTop = nav + filter bar (124px)
+        scrollSnapAlign: isMobile ? 'start' : 'center',
         scrollSnapStop: 'always',
         scrollMarginTop: isMobile ? 124 : 68,
       }}
@@ -74,7 +76,7 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
         src={photo.src}
         alt={photo.title}
         loading="lazy"
-        className={`w-full block ${isMobile ? 'h-auto' : 'h-full object-cover'} group-hover:scale-[1.06]`}
+        className="w-full h-full block object-cover group-hover:scale-[1.06]"
         style={{
           opacity: loaded ? 1 : 0,
           transition: 'opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',

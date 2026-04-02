@@ -188,12 +188,13 @@ export default function DigitalGallery({ onNavigate }) {
   const [selected, setSelected] = useState(null)
   const isMobile = useIsMobile()
 
-  // mandatory on desktop (precise row-by-row). proximity on mobile so the
-  // page doesn't auto-snap on load (scroll=0 is not a snap point).
+  // Always mandatory. On mobile the grid wrapper has paddingTop:56px, which
+  // places the first card at document-position 124px (filterBar 68px + pad 56px).
+  // Its snap = max(0, 124−124) = 0 → page loads at scroll=0 without jumping.
   useEffect(() => {
-    document.documentElement.style.scrollSnapType = isMobile ? 'y proximity' : 'y mandatory'
+    document.documentElement.style.scrollSnapType = 'y mandatory'
     return () => { document.documentElement.style.scrollSnapType = '' }
-  }, [isMobile])
+  }, [])
 
   const { digitalData } = useAdmin()
   const filtered = activeFilter === 'All'
@@ -255,7 +256,12 @@ export default function DigitalGallery({ onNavigate }) {
         {/* ── Photo grid ──
             Mobile: single column floating cards with horizontal padding
             Desktop: 3-column CSS grid — flows LEFT→RIGHT (row by row)     */}
-        <div className={isMobile ? 'px-4 py-4' : 'p-4'}>
+        {/* Mobile: paddingTop 56px pushes first card to doc-pos 124px
+                   (filterBar 68px + this 56px), so its snap resolves to 0. */}
+        <div
+          className={isMobile ? '' : 'p-4'}
+          style={isMobile ? { paddingTop: 56 } : undefined}
+        >
           <motion.div
             key={activeFilter}
             initial={{ opacity: 0 }}

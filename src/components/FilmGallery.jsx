@@ -77,10 +77,15 @@ function FilmCell({ photo, index, onSelect, spanTwoRows = false }) {
   const [loaded, setLoaded] = useState(false)
   const isMobile = useIsMobile()
   const twoRows = spanTwoRows || photo.aspect === 'portrait'
-  // scrollMarginTop = exact nav height shifts snap-center so rows land
-  // centred in the content area (below the sticky nav), not at the top.
-  // Desktop nav: py-6 (24×2) + min-h-[44px] content + 1px border = 93px
-  // Mobile  nav: py-3 (12×2) + min-h-[44px] content + 1px border = 69px
+
+  // Mobile  — snap:start, scrollMarginTop = nav height (69px).
+  //   Each cell is exactly (100svh − 69px) tall → every swipe travels one
+  //   identical screen, giving perfectly consistent snapping.
+  //   First cell sits at document-top (header is hidden on mobile) so its
+  //   snap position = max(0, 0−69) = 0 → page loads without auto-jumping.
+  //
+  // Desktop — snap:center, scrollMarginTop = 93px (nav height).
+  const snapAlign    = isMobile ? 'start' : 'center'
   const snapMarginTop = isMobile ? 69 : 93
 
   return (
@@ -90,32 +95,39 @@ function FilmCell({ photo, index, onSelect, spanTwoRows = false }) {
       initial="hidden"
       animate="visible"
       className={`group cursor-pointer ${twoRows ? 'md:row-span-2' : ''}`}
-      style={{ scrollSnapAlign: 'center', scrollSnapStop: 'always', scrollMarginTop: snapMarginTop }}
+      style={{ scrollSnapAlign: snapAlign, scrollSnapStop: 'always', scrollMarginTop: snapMarginTop }}
       onClick={() => onSelect(photo)}
     >
-      {/* Image container */}
-      <div className="relative overflow-hidden min-h-[240px] md:min-h-0 md:h-full">
+      {/* Image container — full viewport height on mobile, grid row height on desktop */}
+      <div
+        className="relative overflow-hidden md:min-h-0 md:h-full"
+        style={isMobile ? { height: 'calc(100svh - 69px)' } : undefined}
+      >
         {!loaded && <div className="absolute inset-0 bg-[#F2F2F2] animate-pulse" />}
         <img
           src={photo.src}
           alt={photo.title}
           loading="lazy"
-          className="w-full h-auto md:h-full object-cover transition-transform duration-700 ease-spring md:group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-700 ease-spring md:group-hover:scale-105"
           onLoad={() => setLoaded(true)}
           draggable={false}
         />
-        {/* Caption overlay — desktop hover only; mobile always shows caption below the image */}
+
+        {/* Desktop hover overlay */}
         <div className="hidden md:block">
           <HoverCaption photo={photo} />
         </div>
-      </div>
 
-      {/* Mobile caption — always visible below the image */}
-      <div className="md:hidden px-4 pt-3 pb-1">
-        <p className="font-serif text-base italic text-black/85 leading-snug">{photo.title}</p>
-        <p className="font-sans text-[9px] uppercase tracking-superwide text-black/40 mt-1">
-          {photo.format} — {photo.year}
-        </p>
+        {/* Mobile caption — gradient overlay pinned to bottom of the image */}
+        <div
+          className="md:hidden absolute bottom-0 left-0 right-0 px-5 pt-16 pb-6"
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%)' }}
+        >
+          <p className="font-serif text-xl italic text-white/90 leading-snug">{photo.title}</p>
+          <p className="font-sans text-[9px] uppercase tracking-superwide text-white/55 mt-1">
+            {photo.format} — {photo.year}
+          </p>
+        </div>
       </div>
     </motion.div>
   )
@@ -213,12 +225,14 @@ export default function FilmGallery() {
   const [filter, setFilter]     = useState('all')
   const isMobile = useIsMobile()
 
-  // mandatory on desktop (precise row-by-row). proximity on mobile so the
-  // page doesn't auto-snap on load (scroll=0 is not a snap point).
+  // Always mandatory. On mobile the header is hidden so the first FilmCell
+  // sits at document-top, its snap resolves to scroll=0, and the browser
+  // rests there on load — no auto-jump. Each cell is exactly one screen tall
+  // so every swipe travels an identical distance.
   useEffect(() => {
-    document.documentElement.style.scrollSnapType = isMobile ? 'y proximity' : 'y mandatory'
+    document.documentElement.style.scrollSnapType = 'y mandatory'
     return () => { document.documentElement.style.scrollSnapType = '' }
-  }, [isMobile])
+  }, [])
 
   const { filmData } = useAdmin()
   const filters  = ['all', 'portrait', 'landscape']
@@ -226,8 +240,8 @@ export default function FilmGallery() {
 
   return (
     <main className="bg-film-bg min-h-screen">
-      {/* ── Header ── */}
-      <header className="max-w-6xl mx-auto px-4 md:px-6 pt-24 pb-8 md:pb-12">
+      {/* ── Header — hidden on mobile (full-screen snap cells start at doc-top) ── */}
+      <header className="hidden md:block max-w-6xl mx-auto px-4 md:px-6 pt-24 pb-8 md:pb-12">
         <div className="border-b border-film-rule pb-6 md:pb-8">
           <p className="font-sans text-[10px] uppercase tracking-superwide text-black/30 mb-3">
             Film Series — Analog Works
@@ -270,7 +284,7 @@ export default function FilmGallery() {
       ─────────────────────────────────────────────────────────────────────── */}
       <section className="max-w-6xl mx-auto px-0 md:px-6 pb-24">
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-12 md:gap-1.5"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-1.5"
           style={isMobile ? undefined : { gridAutoRows: '220px', gridAutoFlow: 'dense' }}
         >
           {isMobile
@@ -297,8 +311,8 @@ export default function FilmGallery() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="max-w-6xl mx-auto px-4 md:px-6 py-8 border-t border-film-rule">
+      {/* ── Footer — hidden on mobile (mandatory snap, no natural resting point after last image) ── */}
+      <footer className="hidden md:block max-w-6xl mx-auto px-4 md:px-6 py-8 border-t border-film-rule">
         <div className="flex justify-between">
           <p className="font-sans text-[9px] uppercase tracking-superwide text-black/20">All Rights Reserved</p>
           <p className="font-sans text-[9px] uppercase tracking-superwide text-black/20">Shot on Film</p>
