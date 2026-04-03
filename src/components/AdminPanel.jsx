@@ -150,25 +150,123 @@ function parseFocalPoint(pos) {
 }
 
 function FocusPickerModal({ photo, onConfirm, onClose }) {
-  const [focal, setFocal] = useState(() => parseFocalPoint(photo.objectPosition))
-  const [fit,   setFit  ] = useState(photo.objectFit || 'cover')
+  const [focal,   setFocal  ] = useState(() => parseFocalPoint(photo.objectPosition))
+  const [fit,     setFit    ] = useState(photo.objectFit || 'cover')
+  const [natSize, setNatSize] = useState({ w: 0, h: 0 })
+  const [edSize,  setEdSize ] = useState({ w: 0, h: 0 })
 
-  const handleImageClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = Math.round(((e.clientX - rect.left)  / rect.width)  * 100)
-    const y = Math.round(((e.clientY - rect.top)   / rect.height) * 100)
-    setFocal({ x, y })
+  const editorRef   = useRef(null)
+  const dragStart   = useRef(null)   // {clientX, clientY, focalX, focalY}
+  const didDrag     = useRef(false)
+  const moveFn      = useRef(null)
+  const upFn        = useRef(null)
+
+  // Observe editor container size
+  useEffect(() => {
+    const el = editorRef.current
+    if (!el) return
+    const ro = new ResizeObserver(([e]) => {
+      const { width, height } = e.contentRect
+      setEdSize({ w: width, h: height })
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  // Clean up global listeners on unmount
+  useEffect(() => () => {
+    if (moveFn.current) window.removeEventListener('pointermove', moveFn.current)
+    if (upFn.current)   window.removeEventListener('pointerup',   upFn.current)
+  }, [])
+
+  // ── Geometry ──────────────────────────────────────────────────────────────
+  // Mobile digital container: ~390 wide × (812-124=688) tall → ratio ≈ 0.567
+  const MOB_RATIO = 390 / 688
+
+  const imgRatio = natSize.w && natSize.h ? natSize.w / natSize.h : 1
+
+  // Image rendered in editor at "contain" (full image visible, letterboxed)
+  const scale = natSize.w && natSize.h
+    ? Math.min(edSize.w / natSize.w, edSize.h / natSize.h)
+    : 1
+  const dispW = natSize.w * scale || edSize.w
+  const dispH = natSize.h * scale || edSize.h
+  const dispX = (edSize.w - dispW) / 2   // horizontal letterbox offset
+  const dispY = (edSize.h - dispH) / 2   // vertical letterbox offset
+
+  // Frame rect = the mobile crop window drawn over the full image
+  // When cover: image fills container height (if wider) or width (if taller)
+  let frameW, frameH
+  if (imgRatio >= MOB_RATIO) {
+    // Image wider than mobile frame → frame is portrait strip across full height
+    frameW = dispW * MOB_RATIO / imgRatio
+    frameH = dispH
+  } else {
+    // Image taller → frame is full width, shorter strip
+    frameW = dispW
+    frameH = dispH * imgRatio / MOB_RATIO
+  }
+
+  const maxDragX = Math.max(0, dispW - frameW)
+  const maxDragY = Math.max(0, dispH - frameH)
+
+  // Frame top-left in editor coordinates
+  const frameLeft = dispX + (focal.x / 100) * maxDragX
+  const frameTop  = dispY + (focal.y / 100) * maxDragY
+
+  // Convert a frame top-left position (within image coords) → focal %
+  const posToFocal = (left, top) => ({
+    x: maxDragX > 0 ? Math.round(Math.max(0, Math.min(100, (left / maxDragX) * 100))) : 50,
+    y: maxDragY > 0 ? Math.round(Math.max(0, Math.min(100, (top  / maxDragY) * 100))) : 50,
+  })
+
+  // ── Drag handlers ─────────────────────────────────────────────────────────
+  const onFramePointerDown = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    didDrag.current   = false
+    dragStart.current = { clientX: e.clientX, clientY: e.clientY, focalX: focal.x, focalY: focal.y }
+
+    const mX = maxDragX, mY = maxDragY
+    const startFX = focal.x, startFY = focal.y
+
+    moveFn.current = (ev) => {
+      const dx = ev.clientX - dragStart.current.clientX
+      const dy = ev.clientY - dragStart.current.clientY
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag.current = true
+      const newL = (startFX / 100) * mX + dx
+      const newT = (startFY / 100) * mY + dy
+      setFocal(posToFocal(Math.max(0, Math.min(mX, newL)), Math.max(0, Math.min(mY, newT))))
+    }
+    upFn.current = () => {
+      dragStart.current = null
+      window.removeEventListener('pointermove', moveFn.current)
+      window.removeEventListener('pointerup',   upFn.current)
+    }
+    window.addEventListener('pointermove', moveFn.current)
+    window.addEventListener('pointerup',   upFn.current)
+  }
+
+  // Clicking outside the frame re-centers the frame on click point
+  const onEditorClick = (e) => {
+    if (didDrag.current) return
+    const rect = editorRef.current.getBoundingClientRect()
+    const cx = e.clientX - rect.left - dispX   // relative to displayed image
+    const cy = e.clientY - rect.top  - dispY
+    const newL = Math.max(0, Math.min(maxDragX, cx - frameW / 2))
+    const newT = Math.max(0, Math.min(maxDragY, cy - frameH / 2))
+    setFocal(posToFocal(newL, newT))
   }
 
   const objectPosition = `${focal.x}% ${focal.y}%`
+  const isCover = fit === 'cover'
 
   return (
     <motion.div
       className="fixed inset-0 flex items-center justify-center p-4"
       style={{ zIndex: 99999, background: 'rgba(0,0,0,0.93)', backdropFilter: 'blur(10px)' }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      onClick={onClose}
     >
       <motion.div
         className="w-full max-w-4xl flex flex-col gap-4"
@@ -185,12 +283,14 @@ function FocusPickerModal({ photo, onConfirm, onClose }) {
               FRAME EDITOR
             </p>
             <p className="font-mono text-[8px] tracking-widest mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
-              Click the image to set the focal point · live preview on the right
+              {isCover
+                ? 'Drag the frame or click outside it to reposition the mobile crop'
+                : 'Contain — full image shown, no cropping'}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <AdminBtn
-              label={fit === 'cover' ? 'FIT: COVER' : 'FIT: CONTAIN'}
+              label={isCover ? 'MODE: CROP' : 'MODE: FULL'}
               onClick={() => setFit(f => f === 'cover' ? 'contain' : 'cover')}
             />
             <AdminBtn label="CANCEL" onClick={onClose} />
@@ -199,53 +299,90 @@ function FocusPickerModal({ photo, onConfirm, onClose }) {
         </div>
 
         {/* ── Main area ── */}
-        <div className="flex gap-4 items-start">
+        <div className="flex gap-4" style={{ height: '64vh' }}>
 
-          {/* Full image — clickable to set focal point */}
+          {/* ── Editor canvas ── */}
           <div
-            className="flex-1 relative cursor-crosshair overflow-hidden"
-            style={{ maxHeight: '62vh', background: '#0a0a0a' }}
-            onClick={handleImageClick}
+            ref={editorRef}
+            className="flex-1 h-full relative overflow-hidden"
+            style={{ background: '#060606', cursor: isCover ? 'crosshair' : 'default' }}
+            onClick={isCover ? onEditorClick : undefined}
           >
+            {/* Full image — always "contain" so the whole image is visible */}
             <img
               src={photo.src}
               alt=""
               draggable={false}
-              style={{ width: '100%', height: '100%', maxHeight: '62vh', objectFit: 'contain', display: 'block', userSelect: 'none' }}
+              onLoad={e => setNatSize({ w: e.target.naturalWidth, h: e.target.naturalHeight })}
+              style={{
+                position: 'absolute',
+                left: dispX, top: dispY, width: dispW, height: dispH,
+                objectFit: 'contain', display: 'block', userSelect: 'none',
+              }}
             />
 
-            {/* Crosshair at focal point */}
-            <div
-              className="absolute pointer-events-none"
-              style={{ left: `${focal.x}%`, top: `${focal.y}%`, transform: 'translate(-50%,-50%)' }}
-            >
-              {/* Horizontal line */}
-              <div style={{ position: 'absolute', top: '50%', left: -9999, width: 99999, height: 1, background: 'rgba(0,229,255,0.35)', transform: 'translateY(-50%)' }} />
-              {/* Vertical line */}
-              <div style={{ position: 'absolute', left: '50%', top: -9999, width: 1, height: 99999, background: 'rgba(0,229,255,0.35)', transform: 'translateX(-50%)' }} />
-              {/* Centre dot */}
-              <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid rgba(0,229,255,0.95)', background: 'rgba(0,229,255,0.15)' }} />
-            </div>
+            {/* Cover mode: dim everything outside the frame, show draggable frame */}
+            {isCover && natSize.w > 0 && (
+              <div
+                onPointerDown={onFramePointerDown}
+                onClick={e => e.stopPropagation()}
+                style={{
+                  position: 'absolute',
+                  left: frameLeft, top: frameTop,
+                  width: frameW, height: frameH,
+                  // box-shadow creates the dark vignette around the frame
+                  boxShadow: '0 0 0 9999px rgba(0,0,0,0.62)',
+                  outline: '1.5px solid rgba(0,229,255,0.85)',
+                  cursor: 'move',
+                  zIndex: 2,
+                }}
+              >
+                {/* Corner brackets */}
+                {[['top','left'],['top','right'],['bottom','left'],['bottom','right']].map(([v, h]) => (
+                  <div key={v+h} style={{
+                    position: 'absolute', [v]: -1, [h]: -1,
+                    width: 12, height: 12,
+                    borderTop:    v === 'top'    ? '2px solid rgba(0,229,255,1)' : 'none',
+                    borderBottom: v === 'bottom' ? '2px solid rgba(0,229,255,1)' : 'none',
+                    borderLeft:   h === 'left'   ? '2px solid rgba(0,229,255,1)' : 'none',
+                    borderRight:  h === 'right'  ? '2px solid rgba(0,229,255,1)' : 'none',
+                  }} />
+                ))}
+                {/* "MOBILE VIEW" label */}
+                <div style={{ position: 'absolute', bottom: 5, left: '50%', transform: 'translateX(-50%)', pointerEvents: 'none' }}>
+                  <p className="font-mono text-[7px] tracking-widest whitespace-nowrap" style={{ color: 'rgba(0,229,255,0.6)' }}>
+                    MOBILE VIEW
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Contain mode: just outline the full image boundary */}
+            {!isCover && natSize.w > 0 && (
+              <div style={{
+                position: 'absolute',
+                left: dispX, top: dispY, width: dispW, height: dispH,
+                border: '1px dashed rgba(255,255,255,0.2)',
+                pointerEvents: 'none', zIndex: 2,
+              }} />
+            )}
           </div>
 
-          {/* Phone preview — shows the crop result */}
-          <div className="flex-shrink-0 flex flex-col items-center gap-2" style={{ width: 160 }}>
+          {/* ── Phone preview ── */}
+          <div className="flex-shrink-0 flex flex-col items-center gap-3 pt-1" style={{ width: 155 }}>
             <p className="font-mono text-[8px] tracking-widest" style={{ color: 'rgba(255,255,255,0.28)' }}>
               MOBILE PREVIEW
             </p>
-            {/* Phone frame */}
-            <div style={{ width: 150, height: 270, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 6, background: '#000' }}>
+            <div style={{ width: 150, height: 268, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 6, background: '#000', flexShrink: 0 }}>
               <img
                 src={photo.src}
                 alt=""
                 style={{ width: '100%', height: '100%', objectFit: fit, objectPosition, display: 'block' }}
               />
             </div>
-            <p className="font-mono text-[8px] tracking-widest text-center" style={{ color: 'rgba(0,229,255,0.5)' }}>
-              {focal.x}% · {focal.y}%
-            </p>
-            <p className="font-mono text-[8px] tracking-widest text-center" style={{ color: 'rgba(255,255,255,0.2)' }}>
-              {fit}
+            <p className="font-mono text-[8px] tracking-widest text-center leading-relaxed" style={{ color: 'rgba(0,229,255,0.4)' }}>
+              {isCover ? `${focal.x}% · ${focal.y}%` : 'full image'}<br />
+              <span style={{ color: 'rgba(255,255,255,0.2)' }}>{fit}</span>
             </p>
           </div>
 
@@ -329,7 +466,7 @@ function PhotoRow({ photo, idx, type, expanded, isDragOver, onToggle, onUpdate, 
       }}
     >
       {/* ── Collapsed row ── */}
-      <div className="flex items-center gap-3 px-4 py-2.5">
+      <div className="flex items-center gap-3 px-4 py-3">
         {/* Drag handle */}
         <div
           draggable
@@ -347,20 +484,26 @@ function PhotoRow({ photo, idx, type, expanded, isDragOver, onToggle, onUpdate, 
           {idx + 1}
         </span>
 
-        {/* Thumbnail */}
+        {/* Thumbnail — portrait rectangle so photos are easy to identify.
+             Digital thumbnails reflect the configured objectPosition/objectFit. */}
         <img
           src={photo.src}
           alt=""
-          className="flex-shrink-0 object-cover"
-          style={{ width: 48, height: 48, border: '1px solid rgba(255,255,255,0.07)' }}
+          className="flex-shrink-0"
+          style={{
+            width: 80, height: 104,
+            objectFit: photo.objectFit || 'cover',
+            objectPosition: photo.objectPosition || 'center',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
         />
 
         {/* Summary */}
         <div className="flex-1 min-w-0 cursor-pointer" onClick={onToggle}>
-          <p className="font-mono text-[11px] truncate" style={{ color: 'rgba(255,255,255,0.72)' }}>
+          <p className="font-mono text-[12px] truncate" style={{ color: 'rgba(255,255,255,0.78)' }}>
             {photo.title}
           </p>
-          <p className="font-mono text-[9px] truncate mt-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>
+          <p className="font-mono text-[10px] truncate mt-1" style={{ color: 'rgba(255,255,255,0.28)' }}>
             {type === 'film'
               ? `${photo.format} — ${photo.year} — ${photo.aspect}`
               : `${photo.category} · ${photo.subject}`}
@@ -615,8 +758,11 @@ export function AdminPanel() {
   const dragIdxRef  = useRef(null)
   const [dragOverIdx, setDragOverIdx] = useState(null)
 
+  // Functional update so rapid successive calls (e.g. applyFrame writing
+  // objectPosition then objectFit) each see the latest state, not a stale
+  // snapshot — prevents the second call from overwriting the first.
   const updateField = (id, field, value) =>
-    setItems(items.map(p => p.id === id ? { ...p, [field]: value } : p))
+    setItems(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p))
 
   const removeItem = (id) => {
     if (expandedId === id) setExpandedId(null)
