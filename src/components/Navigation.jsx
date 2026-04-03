@@ -39,12 +39,9 @@ export default function Navigation({ current, onNavigate }) {
           MATSON STUDIOS
         </span>
 
-        {/* Desktop: balance spacer */}
-        <span className="hidden md:block w-14" />
-
-        {/* Mobile: page title on the right */}
+        {/* Page label — right side on all screen sizes, mirrors mobile layout */}
         <span
-          className="md:hidden text-[10px] tracking-[0.3em] uppercase"
+          className="text-[10px] tracking-[0.3em] uppercase"
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             color: film ? '#c4b49a' : '#374151',
