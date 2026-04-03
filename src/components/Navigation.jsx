@@ -45,7 +45,7 @@ export default function Navigation({ current, onNavigate }) {
         {/* Mobile: brand name — absolute so it sits at exactly the container's horizontal centre
              regardless of the unequal widths of the ← Index button and the page-title label */}
         <span
-          className="md:hidden absolute left-1/2 -translate-x-1/2 pointer-events-none"
+          className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
           style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, letterSpacing: '0.08em', color: film ? '#9a8a72' : '#22d3ee' }}
         >
           STEVEN MATSON

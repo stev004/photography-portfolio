@@ -196,7 +196,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/11",
     "iso": "500",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d21",
@@ -268,7 +269,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/11",
     "iso": "800",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d26",
@@ -292,7 +294,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/16",
     "iso": "400",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d25",
@@ -304,7 +307,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/16",
     "iso": "400",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d3",
@@ -316,7 +320,8 @@ export const digitalPhotos = [
     "shutter": "1/50",
     "aperture": "f/2.8",
     "iso": "800",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d5",
@@ -328,7 +333,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/2.8",
     "iso": "400",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d7",
@@ -340,7 +346,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/11",
     "iso": "200",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d8",
@@ -364,7 +371,8 @@ export const digitalPhotos = [
     "shutter": "1/200",
     "aperture": "f/11",
     "iso": "200",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d17",
@@ -436,7 +444,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/5.0",
     "iso": "100",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d14",
@@ -448,7 +457,8 @@ export const digitalPhotos = [
     "shutter": "1/125",
     "aperture": "f/4.0",
     "iso": "200",
-    "stack": "1 frame"
+    "stack": "1 frame",
+    "objectFit": "cover"
   },
   {
     "id": "d28",

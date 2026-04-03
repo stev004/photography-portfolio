@@ -243,13 +243,15 @@ export default function FilmGallery() {
       {/* ── Header — hidden on mobile (full-screen snap cells start at doc-top) ── */}
       <header className="hidden md:block max-w-6xl mx-auto px-4 md:px-6 pt-24 pb-8 md:pb-12">
         <div className="border-b border-film-rule pb-6 md:pb-8">
-          <p className="font-sans text-[10px] uppercase tracking-superwide text-black/30 mb-3">
-            Film Series — Analog Works
-          </p>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-0">
-            <h1 className="font-serif text-3xl md:text-6xl lg:text-7xl italic text-black/90 leading-none">
-              Film
-            </h1>
+            <div>
+              <h1 className="font-serif text-3xl md:text-6xl lg:text-7xl italic text-black/90 leading-none">
+                Film
+              </h1>
+              <p className="font-sans text-[10px] uppercase tracking-superwide text-black/30 mt-2">
+                Film Series — Analog Works
+              </p>
+            </div>
             <div className="flex items-center gap-5 md:gap-6 pb-1">
               {filters.map(f => (
                 <button
@@ -270,7 +272,7 @@ export default function FilmGallery() {
             {filtered.length} Frames
           </p>
           <p className="font-sans text-[9px] uppercase tracking-superwide text-black/25 hidden md:block">
-            Kodak · Ilford · Fuji · Lomography
+            Kodak · Portra · Fuji · Gold
           </p>
         </div>
       </header>

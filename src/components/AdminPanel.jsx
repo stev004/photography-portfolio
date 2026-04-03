@@ -112,9 +112,9 @@ function Field({ label, value, onChange, colSpan }) {
   )
 }
 
-function SelectField({ label, value, onChange, options }) {
+function SelectField({ label, value, onChange, options, colSpan }) {
   return (
-    <div>
+    <div style={colSpan ? { gridColumn: `span ${colSpan}` } : {}}>
       <label className="font-mono text-[8px] tracking-widest block mb-1" style={{ color: 'rgba(255,255,255,0.22)' }}>
         {label}
       </label>
@@ -124,9 +124,134 @@ function SelectField({ label, value, onChange, options }) {
         className="w-full bg-transparent font-mono text-[11px] px-2 py-1.5 outline-none"
         style={{ border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)', background: '#111' }}
       >
-        {options.map(o => <option key={o} value={o}>{o}</option>)}
+        {options.map(o => (
+          typeof o === 'string'
+            ? <option key={o} value={o}>{o}</option>
+            : <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
       </select>
     </div>
+  )
+}
+
+// ─── Focus / Fit picker modal ─────────────────────────────────────────────────
+// Convert any CSS object-position string into {x, y} percentage coordinates
+function parseFocalPoint(pos) {
+  if (!pos || pos === 'center') return { x: 50, y: 50 }
+  const kw = {
+    top: { x: 50, y: 0 }, bottom: { x: 50, y: 100 },
+    left: { x: 0, y: 50 }, right: { x: 100, y: 50 },
+    'top left': { x: 0, y: 0 }, 'top right': { x: 100, y: 0 },
+    'bottom left': { x: 0, y: 100 }, 'bottom right': { x: 100, y: 100 },
+  }
+  if (kw[pos]) return kw[pos]
+  const parts = pos.trim().split(/\s+/)
+  return { x: parseFloat(parts[0]) || 50, y: parseFloat(parts[1] ?? parts[0]) || 50 }
+}
+
+function FocusPickerModal({ photo, onConfirm, onClose }) {
+  const [focal, setFocal] = useState(() => parseFocalPoint(photo.objectPosition))
+  const [fit,   setFit  ] = useState(photo.objectFit || 'cover')
+
+  const handleImageClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = Math.round(((e.clientX - rect.left)  / rect.width)  * 100)
+    const y = Math.round(((e.clientY - rect.top)   / rect.height) * 100)
+    setFocal({ x, y })
+  }
+
+  const objectPosition = `${focal.x}% ${focal.y}%`
+
+  return (
+    <motion.div
+      className="fixed inset-0 flex items-center justify-center p-4"
+      style={{ zIndex: 99999, background: 'rgba(0,0,0,0.93)', backdropFilter: 'blur(10px)' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="w-full max-w-4xl flex flex-col gap-4"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1,    opacity: 1 }}
+        exit={{ scale: 0.96,    opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* ── Header ── */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(0,229,255,0.65)' }}>
+              FRAME EDITOR
+            </p>
+            <p className="font-mono text-[8px] tracking-widest mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
+              Click the image to set the focal point · live preview on the right
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <AdminBtn
+              label={fit === 'cover' ? 'FIT: COVER' : 'FIT: CONTAIN'}
+              onClick={() => setFit(f => f === 'cover' ? 'contain' : 'cover')}
+            />
+            <AdminBtn label="CANCEL" onClick={onClose} />
+            <AdminBtn label="APPLY" accent onClick={() => onConfirm({ objectPosition, objectFit: fit })} />
+          </div>
+        </div>
+
+        {/* ── Main area ── */}
+        <div className="flex gap-4 items-start">
+
+          {/* Full image — clickable to set focal point */}
+          <div
+            className="flex-1 relative cursor-crosshair overflow-hidden"
+            style={{ maxHeight: '62vh', background: '#0a0a0a' }}
+            onClick={handleImageClick}
+          >
+            <img
+              src={photo.src}
+              alt=""
+              draggable={false}
+              style={{ width: '100%', height: '100%', maxHeight: '62vh', objectFit: 'contain', display: 'block', userSelect: 'none' }}
+            />
+
+            {/* Crosshair at focal point */}
+            <div
+              className="absolute pointer-events-none"
+              style={{ left: `${focal.x}%`, top: `${focal.y}%`, transform: 'translate(-50%,-50%)' }}
+            >
+              {/* Horizontal line */}
+              <div style={{ position: 'absolute', top: '50%', left: -9999, width: 99999, height: 1, background: 'rgba(0,229,255,0.35)', transform: 'translateY(-50%)' }} />
+              {/* Vertical line */}
+              <div style={{ position: 'absolute', left: '50%', top: -9999, width: 1, height: 99999, background: 'rgba(0,229,255,0.35)', transform: 'translateX(-50%)' }} />
+              {/* Centre dot */}
+              <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid rgba(0,229,255,0.95)', background: 'rgba(0,229,255,0.15)' }} />
+            </div>
+          </div>
+
+          {/* Phone preview — shows the crop result */}
+          <div className="flex-shrink-0 flex flex-col items-center gap-2" style={{ width: 160 }}>
+            <p className="font-mono text-[8px] tracking-widest" style={{ color: 'rgba(255,255,255,0.28)' }}>
+              MOBILE PREVIEW
+            </p>
+            {/* Phone frame */}
+            <div style={{ width: 150, height: 270, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 6, background: '#000' }}>
+              <img
+                src={photo.src}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: fit, objectPosition, display: 'block' }}
+              />
+            </div>
+            <p className="font-mono text-[8px] tracking-widest text-center" style={{ color: 'rgba(0,229,255,0.5)' }}>
+              {focal.x}% · {focal.y}%
+            </p>
+            <p className="font-mono text-[8px] tracking-widest text-center" style={{ color: 'rgba(255,255,255,0.2)' }}>
+              {fit}
+            </p>
+          </div>
+
+        </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
@@ -144,17 +269,48 @@ function FilmFields({ photo, onUpdate }) {
 
 // ─── Digital edit fields ──────────────────────────────────────────────────────
 function DigitalFields({ photo, onUpdate }) {
+  const [pickerOpen, setPickerOpen] = useState(false)
+
+  const applyFrame = ({ objectPosition, objectFit }) => {
+    onUpdate('objectPosition', objectPosition)
+    onUpdate('objectFit',      objectFit)
+    setPickerOpen(false)
+  }
+
+  const focusLabel = photo.objectPosition || 'center'
+  const fitLabel   = photo.objectFit      || 'cover'
+
   return (
-    <div className="grid grid-cols-4 gap-2 mt-2">
-      <Field label="TITLE"    value={photo.title}    onChange={v => onUpdate('title',    v)} colSpan={2} />
-      <Field label="SUBJECT"  value={photo.subject}  onChange={v => onUpdate('subject',  v)} colSpan={2} />
-      <SelectField label="CATEGORY" value={photo.category} onChange={v => onUpdate('category', v)} options={['Macro', 'Nature', 'Crystal']} />
-      <Field label="LENS"     value={photo.lens}     onChange={v => onUpdate('lens',     v)} />
-      <Field label="SHUTTER"  value={photo.shutter}  onChange={v => onUpdate('shutter',  v)} />
-      <Field label="APERTURE" value={photo.aperture} onChange={v => onUpdate('aperture', v)} />
-      <Field label="ISO"      value={photo.iso}      onChange={v => onUpdate('iso',      v)} />
-      <Field label="STACK"    value={photo.stack}    onChange={v => onUpdate('stack',    v)} colSpan={2} />
-    </div>
+    <>
+      <div className="grid grid-cols-4 gap-2 mt-2">
+        <Field label="TITLE"    value={photo.title}    onChange={v => onUpdate('title',    v)} colSpan={2} />
+        <Field label="SUBJECT"  value={photo.subject}  onChange={v => onUpdate('subject',  v)} colSpan={2} />
+        <SelectField label="CATEGORY" value={photo.category} onChange={v => onUpdate('category', v)} options={['Macro', 'Nature', 'Crystal']} />
+        <Field label="LENS"     value={photo.lens}     onChange={v => onUpdate('lens',     v)} />
+        <Field label="SHUTTER"  value={photo.shutter}  onChange={v => onUpdate('shutter',  v)} />
+        <Field label="APERTURE" value={photo.aperture} onChange={v => onUpdate('aperture', v)} />
+        <Field label="ISO"      value={photo.iso}      onChange={v => onUpdate('iso',      v)} />
+        <Field label="STACK"    value={photo.stack}    onChange={v => onUpdate('stack',    v)} colSpan={2} />
+
+        {/* Frame button + current values summary */}
+        <div className="col-span-4 flex items-center gap-3 pt-1">
+          <AdminBtn label="SET FRAME" accent onClick={() => setPickerOpen(true)} />
+          <span className="font-mono text-[8px] tracking-widest" style={{ color: 'rgba(255,255,255,0.25)' }}>
+            focus: {focusLabel} · fit: {fitLabel}
+          </span>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {pickerOpen && (
+          <FocusPickerModal
+            photo={photo}
+            onConfirm={applyFrame}
+            onClose={() => setPickerOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 

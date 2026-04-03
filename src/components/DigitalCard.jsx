@@ -76,8 +76,10 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
         src={photo.src}
         alt={photo.title}
         loading="lazy"
-        className="w-full h-full block object-cover group-hover:scale-[1.06]"
+        className="w-full h-full block group-hover:scale-[1.06]"
         style={{
+          objectFit:      photo.objectFit      || 'cover',
+          objectPosition: photo.objectPosition || 'center',
           opacity: loaded ? 1 : 0,
           transition: 'opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
           willChange: 'transform',
