@@ -72,11 +72,51 @@ export const filmPhotos = [
     "aspect": "portrait"
   },
   {
+    "id": "f21",
+    "src": "/images/film/35mm/0013-d4d23.jpg",
+    "title": "Villa Hibiscus",
+    "year": "2024",
+    "format": "35mm - Kodak Portra 400",
+    "aspect": "portrait"
+  },
+  {
     "id": "f5",
     "src": "/images/film/35mm/0013-94ba6.jpg",
     "title": "Perch",
     "year": "2023",
     "format": "35mm — Fujicolor 200",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f22",
+    "src": "/images/film/35mm/0025-45336.jpg",
+    "title": "Sunlit Chapel",
+    "year": "2024",
+    "format": "35mm - Kodak Porta 400",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f12",
+    "src": "/images/film/35mm/0023-0a6ee.jpg",
+    "title": "Dusk ",
+    "year": "2022",
+    "format": "35mm — Kodak Portra 400",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f18",
+    "src": "/images/film/35mm/0035-5f56c.jpg",
+    "title": "Copenhagen Interference",
+    "year": "2024",
+    "format": "35mm — Cinestill 800T",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f23",
+    "src": "/images/film/35mm/0026-c2952.jpg",
+    "title": "Ford Escort Mk2",
+    "year": "2024",
+    "format": "35mm - Kodak Colorplus 200",
     "aspect": "portrait"
   },
   {
@@ -88,27 +128,11 @@ export const filmPhotos = [
     "aspect": "landscape"
   },
   {
-    "id": "f18",
-    "src": "/images/film/35mm/0035-5f56c.jpg",
-    "title": "Copenhagen Interference",
-    "year": "2024",
-    "format": "35mm — Cinestill 800T",
-    "aspect": "portrait"
-  },
-  {
     "id": "f10",
     "src": "/images/film/35mm/0018-d567d.jpg",
     "title": "Gloom",
     "year": "2024",
     "format": "35mm — Cinestill 800T",
-    "aspect": "portrait"
-  },
-  {
-    "id": "f12",
-    "src": "/images/film/35mm/0023-0a6ee.jpg",
-    "title": "Dusk ",
-    "year": "2022",
-    "format": "35mm — Kodak Portra 400",
     "aspect": "portrait"
   },
   {
@@ -150,30 +174,6 @@ export const filmPhotos = [
     "year": "2023",
     "format": "35mm - Kodak Portra 400",
     "aspect": "portrait"
-  },
-  {
-    "id": "f21",
-    "src": "/images/film/35mm/0013-d4d23.jpg",
-    "title": "Villa Hibiscus",
-    "year": "2024",
-    "format": "35mm - Kodak Portra 400",
-    "aspect": "portrait"
-  },
-  {
-    "id": "f22",
-    "src": "/images/film/35mm/0025-45336.jpg",
-    "title": "Sunlit Chapel",
-    "year": "2024",
-    "format": "35mm - Kodak Porta 400",
-    "aspect": "portrait"
-  },
-  {
-    "id": "f23",
-    "src": "/images/film/35mm/0026-c2952.jpg",
-    "title": "Ford Escort Mk2",
-    "year": "2024",
-    "format": "35mm - Kodak Colorplus 200",
-    "aspect": "portrait"
   }
 ]
 
@@ -204,20 +204,6 @@ export const digitalPhotos = [
     "objectFit": "cover"
   },
   {
-    "id": "d6",
-    "src": "/images/digital/macro/IMG_1711-Enhanced-NR.jpg",
-    "title": "Detail VI",
-    "subject": "Jumping spider (Salticidae)",
-    "category": "Macro",
-    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
-    "shutter": "1/125",
-    "aperture": "f/11",
-    "iso": "500",
-    "stack": "1 frame",
-    "objectFit": "cover",
-    "objectPosition": "47% 50%"
-  },
-  {
     "id": "d21",
     "src": "/images/digital/macro/IMG_2860-2-Enhanced-NR.jpg",
     "title": "Form XXI",
@@ -226,18 +212,6 @@ export const digitalPhotos = [
     "lens": "18-200mm DC MACRO OS HSM",
     "shutter": "1/50",
     "aperture": "f/6.3",
-    "iso": "800",
-    "stack": "1 frame"
-  },
-  {
-    "id": "d16",
-    "src": "/images/digital/macro/IMG_2378-Enhanced-NR.jpg",
-    "title": "Spine XVI",
-    "subject": "Jumping spider (Salticidae)",
-    "category": "Macro",
-    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
-    "shutter": "1/125",
-    "aperture": "f/11",
     "iso": "800",
     "stack": "1 frame"
   },
@@ -276,6 +250,32 @@ export const digitalPhotos = [
     "aperture": "f/6.3",
     "iso": "800",
     "stack": "1 frame"
+  },
+  {
+    "id": "d16",
+    "src": "/images/digital/macro/IMG_2378-Enhanced-NR.jpg",
+    "title": "Spine XVI",
+    "subject": "Jumping spider (Salticidae)",
+    "category": "Macro",
+    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
+    "shutter": "1/125",
+    "aperture": "f/11",
+    "iso": "800",
+    "stack": "1 frame"
+  },
+  {
+    "id": "d6",
+    "src": "/images/digital/macro/IMG_1711-Enhanced-NR.jpg",
+    "title": "Detail VI",
+    "subject": "Jumping spider (Salticidae)",
+    "category": "Macro",
+    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
+    "shutter": "1/125",
+    "aperture": "f/11",
+    "iso": "500",
+    "stack": "1 frame",
+    "objectFit": "cover",
+    "objectPosition": "47% 50%"
   },
   {
     "id": "d18",
@@ -341,7 +341,7 @@ export const digitalPhotos = [
     "aperture": "f/2.8",
     "iso": "800",
     "stack": "1 frame",
-    "objectFit": "cover",
+    "objectFit": "contain",
     "objectPosition": "34% 50%"
   },
   {
