@@ -185,7 +185,8 @@ export const digitalPhotos = [
     "aperture": "f/11",
     "iso": "400",
     "stack": "1 frame",
-    "objectFit": "cover"
+    "objectFit": "cover",
+    "objectPosition": "58% 50%"
   },
   {
     "id": "d6",
@@ -325,7 +326,7 @@ export const digitalPhotos = [
     "aperture": "f/2.8",
     "iso": "800",
     "stack": "1 frame",
-    "objectFit": "cover",
+    "objectFit": "contain",
     "objectPosition": "34% 50%"
   },
   {
@@ -341,20 +342,6 @@ export const digitalPhotos = [
     "stack": "1 frame",
     "objectFit": "cover",
     "objectPosition": "33% 50%"
-  },
-  {
-    "id": "d7",
-    "src": "/images/digital/macro/IMG_1810-Enhanced-NR.jpg",
-    "title": "Micro Form VII",
-    "subject": "Jumping spider (Salticidae)",
-    "category": "Macro",
-    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
-    "shutter": "1/125",
-    "aperture": "f/11",
-    "iso": "200",
-    "stack": "1 frame",
-    "objectFit": "cover",
-    "objectPosition": "48% 50%"
   },
   {
     "id": "d8",

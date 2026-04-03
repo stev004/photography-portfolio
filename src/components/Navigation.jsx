@@ -48,7 +48,7 @@ export default function Navigation({ current, onNavigate }) {
           className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
           style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, letterSpacing: '0.08em', color: film ? '#9a8a72' : '#22d3ee' }}
         >
-          STEVEN MATSON
+          MATSON STUDIOS
         </span>
 
         {/* Desktop: balance spacer */}

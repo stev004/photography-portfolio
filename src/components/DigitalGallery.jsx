@@ -99,7 +99,7 @@ function Sidebar({ onNavigate }) {
             className="block leading-none"
             style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, color: 'rgba(255,255,255,0.85)', letterSpacing: '0.08em' }}
           >
-            STEVEN MATSON
+            MATSON STUDIOS
           </span>
         </button>
       </div>
@@ -107,7 +107,7 @@ function Sidebar({ onNavigate }) {
       {/* Navigation links */}
       <nav className="flex flex-col gap-0.5 px-6 pt-6 flex-1">
         <SidebarLink label="Home" onClick={() => onNavigate('landing')} />
-        <SidebarLink label="Macro Lab" active />
+        <SidebarLink label="Macro" active />
       </nav>
 
       {/* Social icons row */}
@@ -170,7 +170,7 @@ function MobileTopNav({ onNavigate }) {
         style={{ color: 'rgba(255,255,255,0.75)' }}
       >
         <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, letterSpacing: '0.08em' }}>
-          STEVEN MATSON
+          MATSON STUDIOS
         </span>
       </button>
 

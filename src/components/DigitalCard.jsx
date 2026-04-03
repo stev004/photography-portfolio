@@ -111,48 +111,32 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
             animate="visible"
             exit="exit"
           >
-            {/* Mobile dismiss (X) button — top-right */}
-            {isMobile && (
-              <motion.button
-                variants={hudLineVariants}
-                onClick={handleDismiss}
-                className="absolute top-2 right-2 font-mono text-[10px] flex items-center justify-center"
-                style={{
-                  width: 28,
-                  height: 28,
-                  border: '1px solid rgba(255,255,255,0.18)',
-                  borderRadius: 2,
-                  color: 'rgba(255,255,255,0.5)',
-                  background: 'rgba(0,0,0,0.4)',
-                }}
-              >
-                ✕
-              </motion.button>
-            )}
-
-            <div className="p-3">
+            <div className="p-4">
               {/* Subject */}
               <motion.p
                 variants={hudLineVariants}
-                className="font-mono text-[9px] uppercase tracking-widest mb-2"
+                className="font-mono text-[9px] uppercase tracking-widest mb-3"
                 style={{ color: 'rgba(255,255,255,0.35)' }}
               >
                 {photo.subject}
               </motion.p>
 
-              {/* Spec grid */}
-              <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 mb-2">
+              {/* Spec grid — full labels on mobile, abbreviated on desktop */}
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 mb-3">
                 {[
-                  ['LN', photo.lens],
-                  ['SH', photo.shutter],
-                  ['AP', `f/${photo.aperture.replace('f/', '')}`],
-                  ['ISO', photo.iso],
+                  [isMobile ? 'Lens'         : 'LN',  photo.lens],
+                  [isMobile ? 'Shutter'      : 'SH',  photo.shutter],
+                  [isMobile ? 'Aperture'     : 'AP',  `f/${photo.aperture.replace('f/', '')}`],
+                  [isMobile ? 'ISO'          : 'ISO', photo.iso],
                 ].map(([label, val]) => (
-                  <motion.div key={label} variants={hudLineVariants} className="flex items-center gap-1.5">
-                    <span className="font-mono text-[8px] uppercase tracking-widest w-6" style={{ color: 'rgba(255,255,255,0.22)' }}>
+                  <motion.div key={label} variants={hudLineVariants} className="flex flex-col gap-0.5">
+                    <span
+                      className="font-mono uppercase tracking-widest"
+                      style={{ fontSize: isMobile ? 9 : 8, color: 'rgba(255,255,255,0.28)' }}
+                    >
                       {label}
                     </span>
-                    <span className="font-mono text-[10px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                    <span className="font-mono text-[11px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
                       {val}
                     </span>
                   </motion.div>
@@ -162,7 +146,7 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
               {/* Footer row */}
               <motion.div
                 variants={hudLineVariants}
-                className="flex items-center justify-between pt-1.5"
+                className="flex items-center justify-between pt-2"
                 style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
               >
                 <span className="font-mono text-[9px] tracking-widest" style={{ color: 'rgba(255,255,255,0.25)' }}>
@@ -173,15 +157,30 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
                 </span>
               </motion.div>
 
-              {/* Mobile expand hint */}
+              {/* Mobile: expand hint + CLOSE button pinned to bottom-center */}
               {isMobile && (
-                <motion.p
-                  variants={hudLineVariants}
-                  className="font-mono text-[8px] uppercase tracking-widest mt-2 text-center"
-                  style={{ color: 'rgba(0,229,255,0.35)' }}
-                >
-                  Tap again to expand
-                </motion.p>
+                <>
+                  <motion.p
+                    variants={hudLineVariants}
+                    className="font-mono text-[8px] uppercase tracking-widest mt-3 text-center"
+                    style={{ color: 'rgba(0,229,255,0.35)' }}
+                  >
+                    Tap again to expand
+                  </motion.p>
+                  <motion.button
+                    variants={hudLineVariants}
+                    onClick={handleDismiss}
+                    className="w-full mt-3 font-mono text-[10px] uppercase tracking-widest py-2.5 flex items-center justify-center"
+                    style={{
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      borderRadius: 2,
+                      color: 'rgba(255,255,255,0.45)',
+                      background: 'rgba(0,0,0,0.3)',
+                    }}
+                  >
+                    Close
+                  </motion.button>
+                </>
               )}
             </div>
           </motion.div>
@@ -192,8 +191,7 @@ export default function DigitalCard({ photo, onSelect, isMobile }) {
       <div className="absolute top-2 left-2 w-3 h-3 border-t border-l pointer-events-none transition-opacity duration-300"
         style={{ borderColor: hudVisible ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)' }} />
       <div className="absolute top-2 right-2 w-3 h-3 border-t border-r pointer-events-none transition-opacity duration-300"
-        style={{ borderColor: hudVisible ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)',
-                 right: isMobile && hudVisible ? 36 : 8 }} />
+        style={{ borderColor: hudVisible ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)' }} />
     </div>
   )
 }
