@@ -29,21 +29,9 @@ export default function Navigation({ current, onNavigate }) {
           <span>&larr;</span> Index
         </motion.button>
 
-        {/* Desktop: section label centred */}
-        <span
-          className="hidden md:block text-[11px] tracking-[0.45em] uppercase"
-          style={{
-            fontFamily: film
-              ? "'Cormorant Garamond', Georgia, serif"
-              : "'Space Grotesk', system-ui, sans-serif",
-            color: film ? '#c4b49a' : '#374151',
-          }}
-        >
-          {film ? 'Film / Analog' : 'Digital / Nature & Macro'}
-        </span>
-
-        {/* Mobile: brand name — absolute so it sits at exactly the container's horizontal centre
-             regardless of the unequal widths of the ← Index button and the page-title label */}
+        {/* Brand — absolute centre on all screen sizes.
+             The old "Film / Analog" desktop label was removed; it conflicted
+             visually with this absolute-positioned span. */}
         <span
           className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
           style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, letterSpacing: '0.08em', color: film ? '#9a8a72' : '#22d3ee' }}

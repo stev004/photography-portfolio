@@ -87,16 +87,16 @@ function Sidebar({ onNavigate }) {
       style={{ width: SIDEBAR_W, background: SIDEBAR_BG, borderRight: '1px solid rgba(255,255,255,0.05)' }}
     >
       {/* Brand name */}
-      <div className="px-6 pt-8 pb-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="px-6 pt-8 pb-6 flex justify-center" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <button
           onClick={() => onNavigate('landing')}
-          className="text-left transition-opacity duration-200"
+          className="transition-opacity duration-200"
           style={{ opacity: 0.75 }}
           onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
           onMouseLeave={e => (e.currentTarget.style.opacity = '0.75')}
         >
           <span
-            className="block leading-none"
+            className="block leading-none text-center"
             style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, color: 'rgba(255,255,255,0.85)', letterSpacing: '0.08em' }}
           >
             MATSON STUDIOS

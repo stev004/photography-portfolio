@@ -11,6 +11,15 @@ function readStorage(key, fallback) {
   catch { return fallback }
 }
 
+// Merge stored data with the latest defaults: preserves all customisations on
+// existing photos, but appends any new photos from photos.js whose IDs are not
+// yet in localStorage (e.g. images added to the public folder after last save).
+function mergeWithDefaults(stored, defaults) {
+  const storedIds = new Set(stored.map(p => p.id))
+  const newPhotos = defaults.filter(p => !storedIds.has(p.id))
+  return newPhotos.length ? [...stored, ...newPhotos] : stored
+}
+
 // ─── Context ──────────────────────────────────────────────────────────────────
 const AdminCtx = createContext(null)
 
@@ -18,8 +27,8 @@ export function AdminProvider({ children }) {
   const [showLogin,   setShowLogin]   = useState(false)
   const [loggedIn,    setLoggedIn]    = useState(false)
   const [showPanel,   setShowPanel]   = useState(false)
-  const [filmData,    setFilmData]    = useState(() => readStorage(FILM_KEY,    defaultFilm))
-  const [digitalData, setDigitalData] = useState(() => readStorage(DIGITAL_KEY, defaultDigital))
+  const [filmData,    setFilmData]    = useState(() => mergeWithDefaults(readStorage(FILM_KEY,    defaultFilm),    defaultFilm))
+  const [digitalData, setDigitalData] = useState(() => mergeWithDefaults(readStorage(DIGITAL_KEY, defaultDigital), defaultDigital))
 
   // Secret: type "admin" anywhere (ignores keypresses inside inputs)
   const seqRef   = useRef('')

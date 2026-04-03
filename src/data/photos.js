@@ -2,7 +2,7 @@ export const filmPhotos = [
   {
     "id": "f1",
     "src": "/images/film/35mm/001-9ec80.jpg",
-    "title": "Frame 001",
+    "title": "Reclaimed ",
     "year": "2024",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -10,7 +10,7 @@ export const filmPhotos = [
   {
     "id": "f7",
     "src": "/images/film/35mm/0016-a4840.jpg",
-    "title": "Portrait XVI",
+    "title": "1987 Mercedes Sauber C9",
     "year": "2024",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -18,7 +18,7 @@ export const filmPhotos = [
   {
     "id": "f9",
     "src": "/images/film/35mm/0017-5f108.jpg",
-    "title": "Still XVII",
+    "title": "Garda Views",
     "year": "2023",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -26,7 +26,7 @@ export const filmPhotos = [
   {
     "id": "f8",
     "src": "/images/film/35mm/0016-e6698.jpg",
-    "title": "Interval XVI",
+    "title": "Coffee",
     "year": "2024",
     "format": "35mm — Kodak Portra 400",
     "aspect": "portrait"
@@ -34,7 +34,7 @@ export const filmPhotos = [
   {
     "id": "f11",
     "src": "/images/film/35mm/0019-cf3bf.jpg",
-    "title": "Window XIX",
+    "title": "1967 Ferrari 330 P4",
     "year": "2023",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -42,7 +42,7 @@ export const filmPhotos = [
   {
     "id": "f2",
     "src": "/images/film/35mm/003-2eb22.jpg",
-    "title": "Frame 003",
+    "title": "White Stallion",
     "year": "2024",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -50,7 +50,7 @@ export const filmPhotos = [
   {
     "id": "f3",
     "src": "/images/film/35mm/007-83bc7.jpg",
-    "title": "Frame 007",
+    "title": "Shutters and Blue",
     "year": "2024",
     "format": "35mm — Kodak Gold 200",
     "aspect": "portrait"
@@ -58,7 +58,7 @@ export const filmPhotos = [
   {
     "id": "f17",
     "src": "/images/film/35mm/0034-05719.jpg",
-    "title": "Contrast XXXIV",
+    "title": "Palm Trees",
     "year": "2023",
     "format": "35mm — Kodak Portra 400",
     "aspect": "portrait"
@@ -66,7 +66,7 @@ export const filmPhotos = [
   {
     "id": "f4",
     "src": "/images/film/35mm/008-60c20.jpg",
-    "title": "Frame 008",
+    "title": "Portuguese Horizon",
     "year": "2024",
     "format": "35mm — Kodak Portra 400",
     "aspect": "portrait"
@@ -74,7 +74,7 @@ export const filmPhotos = [
   {
     "id": "f5",
     "src": "/images/film/35mm/0013-94ba6.jpg",
-    "title": "Study XIII",
+    "title": "Perch",
     "year": "2023",
     "format": "35mm — Fujicolor 200",
     "aspect": "portrait"
@@ -82,7 +82,7 @@ export const filmPhotos = [
   {
     "id": "f6",
     "src": "/images/film/35mm/0015-d42c8.jpg",
-    "title": "Horizon XV",
+    "title": "At Rest",
     "year": "2023",
     "format": "35mm — Fujicolor 200",
     "aspect": "landscape"
@@ -90,7 +90,7 @@ export const filmPhotos = [
   {
     "id": "f18",
     "src": "/images/film/35mm/0035-5f56c.jpg",
-    "title": "Depth XXXV",
+    "title": "Copenhagen Interference",
     "year": "2024",
     "format": "35mm — Cinestill 800T",
     "aspect": "portrait"
@@ -98,7 +98,7 @@ export const filmPhotos = [
   {
     "id": "f10",
     "src": "/images/film/35mm/0018-d567d.jpg",
-    "title": "Grain XVIII",
+    "title": "Gloom",
     "year": "2024",
     "format": "35mm — Cinestill 800T",
     "aspect": "portrait"
@@ -106,7 +106,7 @@ export const filmPhotos = [
   {
     "id": "f12",
     "src": "/images/film/35mm/0023-0a6ee.jpg",
-    "title": "Dusk XXIII",
+    "title": "Dusk ",
     "year": "2022",
     "format": "35mm — Kodak Portra 400",
     "aspect": "portrait"
@@ -114,7 +114,7 @@ export const filmPhotos = [
   {
     "id": "f13",
     "src": "/images/film/35mm/0025-1e6e4.jpg",
-    "title": "Figure XXV",
+    "title": "Fabia R5",
     "year": "2023",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -122,7 +122,7 @@ export const filmPhotos = [
   {
     "id": "f14",
     "src": "/images/film/35mm/0025-53995.jpg",
-    "title": "Expanse XXV",
+    "title": "1971 Lamborghini Miura P400",
     "year": "2022",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "landscape"
@@ -130,7 +130,7 @@ export const filmPhotos = [
   {
     "id": "f15",
     "src": "/images/film/35mm/0026-ec0b1.jpg",
-    "title": "Plains XXVI",
+    "title": "Blue Plains",
     "year": "2023",
     "format": "35mm — Kodak Gold 200",
     "aspect": "landscape"
@@ -138,25 +138,41 @@ export const filmPhotos = [
   {
     "id": "f16",
     "src": "/images/film/35mm/0028-20881.jpg",
-    "title": "Field XXVIII",
+    "title": "1971 Lamborghini Miura P400",
     "year": "2022",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "landscape"
   },
   {
-    "id": "f19",
-    "src": "/images/film/35mm/0036-0e378.jpg",
-    "title": "Distance XXXVI",
-    "year": "2022",
-    "format": "35mm — Kodak Gold 200",
-    "aspect": "landscape"
-  },
-  {
     "id": "f20",
     "src": "/images/film/35mm/0036-64db3.jpg",
-    "title": "Shadow XXXVI",
+    "title": "Half TUrn",
     "year": "2023",
-    "format": "35mm — Kodak Portra 400",
+    "format": "35mm - Kodak Portra 400",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f21",
+    "src": "/images/film/35mm/0013-d4d23.jpg",
+    "title": "Villa Hibiscus",
+    "year": "2024",
+    "format": "35mm - Kodak Portra 400",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f22",
+    "src": "/images/film/35mm/0025-45336.jpg",
+    "title": "Sunlit Chapel",
+    "year": "2024",
+    "format": "35mm - Kodak Porta 400",
+    "aspect": "portrait"
+  },
+  {
+    "id": "f23",
+    "src": "/images/film/35mm/0026-c2952.jpg",
+    "title": "Ford Escort Mk2",
+    "year": "2024",
+    "format": "35mm - Kodak Colorplus 200",
     "aspect": "portrait"
   }
 ]
@@ -185,8 +201,7 @@ export const digitalPhotos = [
     "aperture": "f/11",
     "iso": "400",
     "stack": "1 frame",
-    "objectFit": "cover",
-    "objectPosition": "58% 50%"
+    "objectFit": "cover"
   },
   {
     "id": "d6",
@@ -326,7 +341,7 @@ export const digitalPhotos = [
     "aperture": "f/2.8",
     "iso": "800",
     "stack": "1 frame",
-    "objectFit": "contain",
+    "objectFit": "cover",
     "objectPosition": "34% 50%"
   },
   {
@@ -342,6 +357,20 @@ export const digitalPhotos = [
     "stack": "1 frame",
     "objectFit": "cover",
     "objectPosition": "33% 50%"
+  },
+  {
+    "id": "d7",
+    "src": "/images/digital/macro/IMG_1810-Enhanced-NR.jpg",
+    "title": "Micro Form VII",
+    "subject": "Jumping spider (Salticidae)",
+    "category": "Macro",
+    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
+    "shutter": "1/125",
+    "aperture": "f/11",
+    "iso": "200",
+    "stack": "1 frame",
+    "objectFit": "cover",
+    "objectPosition": "48% 50%"
   },
   {
     "id": "d8",
