@@ -355,34 +355,8 @@ export const digitalPhotos = [
     "aperture": "f/2.8",
     "iso": "400",
     "stack": "1 frame",
-    "objectFit": "cover",
+    "objectFit": "contain",
     "objectPosition": "33% 50%"
-  },
-  {
-    "id": "d7",
-    "src": "/images/digital/macro/IMG_1810-Enhanced-NR.jpg",
-    "title": "Micro Form VII",
-    "subject": "Jumping spider (Salticidae)",
-    "category": "Macro",
-    "lens": "LAOWA 100mm CA-Dreamer Macro 2x",
-    "shutter": "1/125",
-    "aperture": "f/11",
-    "iso": "200",
-    "stack": "1 frame",
-    "objectFit": "cover",
-    "objectPosition": "48% 50%"
-  },
-  {
-    "id": "d8",
-    "src": "/images/digital/macro/IMG_1903-Enhanced-NR.jpg",
-    "title": "Depth Study VIII",
-    "subject": "Jumping spider (Salticidae)",
-    "category": "Macro",
-    "lens": "100mm",
-    "shutter": "1/320",
-    "aperture": "f/5.6",
-    "iso": "200",
-    "stack": "40 frames"
   },
   {
     "id": "d9",
@@ -395,8 +369,20 @@ export const digitalPhotos = [
     "aperture": "f/11",
     "iso": "200",
     "stack": "1 frame",
-    "objectFit": "cover",
+    "objectFit": "contain",
     "objectPosition": "43% 50%"
+  },
+  {
+    "id": "d8",
+    "src": "/images/digital/macro/IMG_1903-Enhanced-NR.jpg",
+    "title": "Depth Study VIII",
+    "subject": "Jumping spider (Salticidae)",
+    "category": "Macro",
+    "lens": "100mm",
+    "shutter": "1/320",
+    "aperture": "f/5.6",
+    "iso": "200",
+    "stack": "40 frames"
   },
   {
     "id": "d17",
