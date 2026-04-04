@@ -274,7 +274,7 @@ export const digitalPhotos = [
     "aperture": "f/11",
     "iso": "500",
     "stack": "1 frame",
-    "objectFit": "cover",
+    "objectFit": "contain",
     "objectPosition": "47% 50%"
   },
   {
