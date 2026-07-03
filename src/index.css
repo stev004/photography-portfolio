@@ -3,68 +3,52 @@
 @tailwind utilities;
 
 @layer base {
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
   html {
     scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
-
   body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    background: #050505;
-    -webkit-overflow-scrolling: touch;
+    @apply bg-paper text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
   }
-
-  button, a, [role="button"] {
-    touch-action: manipulation;
+  ::selection {
+    @apply bg-moss text-paper;
   }
-
   img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Custom scrollbar for digital section */
-  .digital-scroll::-webkit-scrollbar {
-    width: 2px;
-  }
-
-  .digital-scroll::-webkit-scrollbar-track {
-    background: #0D0D0D;
-  }
-
-  .digital-scroll::-webkit-scrollbar-thumb {
-    background: rgba(0, 229, 255, 0.3);
+    -webkit-user-drag: none;
   }
 }
 
-@layer utilities {
-  .cursor-none {
-    cursor: none;
+@layer components {
+  /* Small-caps archival label */
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-label;
   }
-
-  .no-select {
-    user-select: none;
-    -webkit-user-select: none;
+  /* Latin binomial */
+  .binomial {
+    @apply font-display italic;
+    font-variation-settings: 'opsz' 18;
   }
+}
 
-  .film-rule {
-    border-color: #E8E8E8;
+/* Subtle paper grain overlay */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-
-  /* Lens reveal mask utility */
-  .lens-mask {
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

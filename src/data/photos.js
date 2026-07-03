@@ -2,7 +2,7 @@ export const filmPhotos = [
   {
     "id": "f1",
     "src": "/images/film/35mm/001-9ec80.jpg",
-    "title": "Reclaimed ",
+    "title": "Reclaimed",
     "year": "2024",
     "format": "35mm — Kodak Colorplus 200",
     "aspect": "portrait"
@@ -92,13 +92,13 @@ export const filmPhotos = [
     "src": "/images/film/35mm/0025-45336.jpg",
     "title": "Sunlit Chapel",
     "year": "2024",
-    "format": "35mm - Kodak Porta 400",
+    "format": "35mm - Kodak Portra 400",
     "aspect": "portrait"
   },
   {
     "id": "f12",
     "src": "/images/film/35mm/0023-0a6ee.jpg",
-    "title": "Dusk ",
+    "title": "Dusk",
     "year": "2022",
     "format": "35mm — Kodak Portra 400",
     "aspect": "portrait"
@@ -170,7 +170,7 @@ export const filmPhotos = [
   {
     "id": "f20",
     "src": "/images/film/35mm/0036-64db3.jpg",
-    "title": "Half TUrn",
+    "title": "Half Turn",
     "year": "2023",
     "format": "35mm - Kodak Portra 400",
     "aspect": "portrait"
