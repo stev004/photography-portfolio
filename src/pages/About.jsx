@@ -24,14 +24,14 @@ export default function About() {
           </h1>
           <div className="mt-8 max-w-xl space-y-5 text-[15px] leading-relaxed text-ink-soft md:text-base">
             <p>
-              I photograph small things, mostly in Jersey, Channel Islands —
+              I photograph small things, mostly in Jersey, Channel Islands -
               spiders and other invertebrates at macro scale, the plants and
               places around them, and whatever else the island offers.
             </p>
             <p>
               The work is informed by a background in biology and spider
               ecology. Where I can identify a species, I do; where behaviour or
-              habitat is interesting, it goes in the notes. No art-speak — the
+              habitat is interesting, it goes in the notes. No art-speak - the
               pictures and the natural history carry it.
             </p>
             <p>
@@ -78,7 +78,7 @@ export default function About() {
           </div>
           <div className="flex items-baseline justify-between pt-3">
             <p className="text-sm">
-              Jumping spider — <span className="binomial text-ink-soft">Salticidae</span>
+              Jumping spider - <span className="binomial text-ink-soft">Salticidae</span>
             </p>
             <p className="label text-ink-soft">40-frame stack</p>
           </div>

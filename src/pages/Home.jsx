@@ -55,11 +55,11 @@ export default function Home() {
       {/* Split entry: the archive's two collections */}
       <section className="flex flex-col md:h-[calc(100vh-69px)] md:min-h-[560px] md:flex-row">
         <ChoicePanel
-          id="specimens"
-          to="/specimens"
-          index="No. 01 — Digital"
-          title="Specimens"
-          note="Macro & natural history — arachnids, reptiles and flora, identified where possible."
+          id="digital"
+          to="/digital"
+          index="No. 01 - Digital"
+          title="Digital"
+          note="Macro & natural history - arachnids, reptiles and flora, identified where possible."
           count={`${plates.length} plates`}
           image="/images/digital/macro/IMG_2851-2-Enhanced-NR.jpg"
           position="70% 40%"
@@ -69,9 +69,9 @@ export default function Home() {
         <ChoicePanel
           id="film"
           to="/film"
-          index="No. 02 — Analogue"
+          index="No. 02 - Analogue"
           title="Film"
-          note="35mm on Portra, ColorPlus, Gold and CineStill — streets, travel and the occasional racing car."
+          note="35mm on Portra, ColorPlus, Gold and CineStill - streets, travel and the occasional racing car."
           count={`${frames.length} frames`}
           image="/images/film/35mm/0017-5f108.jpg"
           position="50% 55%"
@@ -86,9 +86,9 @@ export default function Home() {
         className="mx-auto flex max-w-site flex-col gap-6 px-5 py-14 md:flex-row md:items-baseline md:justify-between md:px-10 md:py-20"
       >
         <div>
-          <p className="label text-moss">Field Archive — Jersey, Channel Islands</p>
+          <p className="label text-moss">Field Archive - Jersey, Channel Islands</p>
           <p className="mt-5 max-w-2xl font-display text-2xl font-light leading-snug tracking-tight md:text-3xl">
-            Photographs made in the field, mostly in Jersey — informed by a
+            Photographs made in the field, mostly in Jersey - informed by a
             background in biology and a habit of looking under things.
           </p>
         </div>

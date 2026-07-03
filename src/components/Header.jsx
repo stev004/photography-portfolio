@@ -1,13 +1,14 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 
 const links = [
-  { to: '/specimens', label: 'Specimens' },
+  { to: '/digital', label: 'Digital' },
   { to: '/film', label: 'Film' },
   { to: '/about', label: 'About' },
 ]
 
 export default function Header() {
-  const dark = useLocation().pathname.startsWith('/film')
+  const { pathname } = useLocation()
+  const dark = ['/film', '/digital'].some((p) => pathname.startsWith(p))
 
   return (
     <header

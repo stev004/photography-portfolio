@@ -16,30 +16,36 @@ function Plate({ plate, onOpen }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="group mb-10 break-inside-avoid md:mb-12"
+      className="group"
     >
-      <button onClick={onOpen} className="block w-full cursor-zoom-in overflow-hidden bg-parchment text-left">
+      <button
+        onClick={onOpen}
+        className="block aspect-[3/4] w-full cursor-zoom-in overflow-hidden bg-dark-2 text-left"
+      >
         <img
           src={plate.src}
           alt={plate.common || plate.title}
           loading="lazy"
-          className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-          style={{ aspectRatio: plate.ratio }}
+          className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          style={{
+            objectFit: plate.objectFit || 'cover',
+            objectPosition: plate.objectPosition || '50% 50%',
+          }}
         />
       </button>
-      <figcaption className="border-b border-line pb-4 pt-3">
+      <figcaption className="border-b border-dark-line pb-4 pt-3">
         <div className="flex items-baseline justify-between gap-3">
-          <p className="text-[15px] font-medium">{plate.common || plate.title}</p>
-          <p className="label text-ink-soft">Pl. {plate.number}</p>
+          <p className="text-[15px] font-medium text-dark-text">{plate.common || plate.title}</p>
+          <p className="label text-dark-soft">Pl. {plate.number}</p>
         </div>
-        {plate.latin && <p className="binomial mt-0.5 text-sm text-ink-soft">{plate.latin}</p>}
-        <p className="label mt-2 !tracking-[0.08em] text-ink-soft">{dataLine(plate)}</p>
+        {plate.latin && <p className="binomial mt-0.5 text-sm text-dark-soft">{plate.latin}</p>}
+        <p className="label mt-2 !tracking-[0.08em] text-dark-soft">{dataLine(plate)}</p>
       </figcaption>
     </motion.figure>
   )
 }
 
-export default function Specimens() {
+export default function Digital() {
   const [taxon, setTaxon] = useState('All')
   const [open, setOpen] = useState(null)
 
@@ -49,13 +55,13 @@ export default function Specimens() {
   )
 
   return (
-    <div className="mx-auto max-w-site px-5 md:px-10">
-      <section className="border-b border-line pb-8 pt-12 md:pb-10 md:pt-20">
-        <p className="label text-moss">No. 01 — Digital</p>
+    <div className="mx-auto max-w-site px-5 text-dark-text md:px-10">
+      <section className="border-b border-dark-line pb-8 pt-12 md:pb-10 md:pt-20">
+        <p className="label text-sage">No. 01 - Digital</p>
         <h1 className="mt-4 font-display text-4xl font-light tracking-tight md:text-6xl">
-          Specimen Archive
+          Digital Archive
         </h1>
-        <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink-soft md:text-base">
+        <p className="mt-5 max-w-xl text-sm leading-relaxed text-dark-soft md:text-base">
           Close studies of arachnids, reptiles and flora. Species identified
           where possible; capture settings recorded on every plate.
         </p>
@@ -67,17 +73,19 @@ export default function Specimens() {
                 key={t}
                 onClick={() => setTaxon(t)}
                 className={`label min-h-[44px] transition-colors ${
-                  taxon === t ? 'text-ink underline decoration-moss underline-offset-8' : 'text-ink-soft hover:text-ink'
+                  taxon === t
+                    ? 'text-dark-text underline decoration-sage underline-offset-8'
+                    : 'text-dark-soft hover:text-dark-text'
                 }`}
               >
-                {t} <span className="text-moss">{n}</span>
+                {t} <span className="text-sage">{n}</span>
               </button>
             )
           })}
         </div>
       </section>
 
-      <section className="columns-1 gap-8 py-10 sm:columns-2 md:py-14 lg:columns-3">
+      <section className="grid grid-cols-1 gap-x-6 gap-y-10 py-10 sm:grid-cols-2 md:py-14 lg:grid-cols-3">
         {visible.map((p) => (
           <Plate key={p.id} plate={p} onOpen={() => setOpen(visible.indexOf(p))} />
         ))}
@@ -92,7 +100,7 @@ export default function Specimens() {
           <>
             <p className="text-sm text-paper">
               {p.common || p.title}
-              {p.latin && <span className="binomial text-paper/60"> — {p.latin}</span>}
+              {p.latin && <span className="binomial text-paper/60"> - {p.latin}</span>}
             </p>
             <p className="label mt-2 !tracking-[0.08em] text-paper/50">{dataLine(p)}</p>
           </>

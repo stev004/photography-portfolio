@@ -46,12 +46,12 @@ export default function FilmLog() {
   return (
     <div className="mx-auto max-w-site px-5 text-dark-text md:px-10">
       <section className="border-b border-dark-line pb-8 pt-12 md:pb-10 md:pt-20">
-        <p className="label text-ochre">No. 02 — Analogue</p>
+        <p className="label text-ochre">No. 02 - Analogue</p>
         <h1 className="mt-4 font-display text-4xl font-light tracking-tight md:text-6xl">
           Film Log
         </h1>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-dark-soft md:text-base">
-          35mm frames from Jersey and elsewhere — streets, travel and the
+          35mm frames from Jersey and elsewhere - streets, travel and the
           occasional racing car. Logged by stock and year.
         </p>
         <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">

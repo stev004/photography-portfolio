@@ -40,12 +40,16 @@ src/
 │   └── Lightbox.jsx      Shared overlay: keyboard arrows/Escape, captions
 └── pages/
     ├── Home.jsx          Full-height split entry (Specimens / Film) + statement
-    ├── Specimens.jsx     /specimens — masonry (CSS columns), taxa filters
-    ├── FilmLog.jsx       /film — dark, film-stock filters
+    ├── Digital.jsx       /digital — dark, uniform 3:4 grid, taxa filters
+    ├── FilmLog.jsx       /film — dark, masonry, film-stock filters
     └── About.jsx         /about — bio, kit list, contact
 ```
 
-Routes: `/`, `/specimens`, `/film`, `/about` (+ `vercel.json` SPA rewrite).
+Routes: `/`, `/digital` (`/specimens` redirects), `/film`, `/about`
+(+ `vercel.json` SPA rewrite). Both gallery routes use the dark treatment;
+home statement and about stay light.
+
+House style: plain hyphens in all site copy — no en/em dashes.
 
 ## 4. Conventions & decisions
 

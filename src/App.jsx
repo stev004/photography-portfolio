@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import Specimens from './pages/Specimens'
+import Digital from './pages/Digital'
 import FilmLog from './pages/FilmLog'
 import About from './pages/About'
 
@@ -22,7 +22,7 @@ const page = {
 
 export default function App() {
   const location = useLocation()
-  const dark = location.pathname.startsWith('/film')
+  const dark = ['/film', '/digital'].some((p) => location.pathname.startsWith(p))
 
   return (
     <div className={`grain flex min-h-screen flex-col ${dark ? 'bg-dark' : 'bg-paper'}`}>
@@ -39,7 +39,8 @@ export default function App() {
         >
           <Routes location={location}>
             <Route path="/" element={<Home />} />
-            <Route path="/specimens" element={<Specimens />} />
+            <Route path="/digital" element={<Digital />} />
+            <Route path="/specimens" element={<Navigate to="/digital" replace />} />
             <Route path="/film" element={<FilmLog />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<Navigate to="/" replace />} />
