@@ -83,6 +83,25 @@ function taxonOf(subject = '', category = '') {
   return 'Other'
 }
 
+// Short lens names so the caption data line stays on one line; the full
+// name still shows in photos.js and could be surfaced in the lightbox.
+const LENS_SHORT = {
+  'ef-24mm stm reversed': '24mm rev.',
+  'laowa 100mm ca-dreamer macro 2x': 'Laowa 100mm',
+  '18-200mm dc macro os hsm': '18-200mm',
+  '100mm': '100mm',
+  '24mm ef-s stm': '24mm',
+}
+
+// One-line capture summary shown under every plate.
+export function dataLine(p) {
+  const lens = LENS_SHORT[(p.lens || '').toLowerCase()] || p.lens
+  const parts = [lens, p.aperture, p.shutter, `ISO ${p.iso}`]
+  const stackN = parseInt(p.stack, 10)
+  if (stackN > 1) parts.push(`×${stackN} stack`)
+  return parts.filter(Boolean).join(' · ')
+}
+
 // "35mm — Kodak Colorplus 200" (dashes vary) -> "Kodak ColorPlus 200"
 function parseStock(format = '') {
   const raw = format.split(/[—–-]/).slice(1).join('-').trim() || format.trim()

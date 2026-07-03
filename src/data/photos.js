@@ -348,7 +348,7 @@ export const digitalPhotos = [
     "id": "d5",
     "src": "/images/digital/macro/IMG_1455.jpg",
     "title": "Macro Study V",
-    "subject": "Juvenile Steatoda Nobilis",
+    "subject": "Noble false widow, juvenile (Steatoda nobilis)",
     "category": "Macro",
     "lens": "EF-24mm STM Reversed",
     "shutter": "1/125",

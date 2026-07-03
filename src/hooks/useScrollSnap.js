@@ -15,15 +15,20 @@ export const snapTarget = {
 // image on load, hiding the page header.
 export const snapStart = {
   scrollSnapAlign: 'start',
+  // Offset by the sticky header so this snap point rests at scroll=0,
+  // keeping the header visible instead of tucking the intro under it.
+  scrollMarginTop: `${SNAP_MARGIN}px`,
 }
 
-// Enables y-mandatory scroll snapping on <html> while the page is mounted.
-export default function useScrollSnap() {
+// Route-driven snap toggle, called once from App. Keyed to the pathname so
+// snapping turns off the moment navigation starts - a per-page unmount
+// cleanup would only run after the exit animation, leaving mandatory snap
+// active while the next page settles and nudging it off scroll=0.
+export default function useScrollSnap(enabled) {
   useEffect(() => {
-    const el = document.documentElement
-    el.style.scrollSnapType = 'y mandatory'
+    document.documentElement.style.scrollSnapType = enabled ? 'y mandatory' : ''
     return () => {
-      el.style.scrollSnapType = ''
+      document.documentElement.style.scrollSnapType = ''
     }
-  }, [])
+  }, [enabled])
 }

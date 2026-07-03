@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { frames, filmStocks } from '../data/archive'
 import Lightbox from '../components/Lightbox'
-import useScrollSnap, { snapTarget, snapStart } from '../hooks/useScrollSnap'
+import { snapTarget, snapStart } from '../hooks/useScrollSnap'
 
 function Frame({ frame, onOpen }) {
   return (
@@ -27,10 +27,10 @@ function Frame({ frame, onOpen }) {
       </button>
       <figcaption className="border-b border-dark-line pb-4 pt-3">
         <div className="flex items-baseline justify-between gap-3">
-          <p className="text-[15px] font-medium text-dark-text">{frame.title}</p>
-          <p className="label text-dark-soft">Fr. {frame.number}</p>
+          <p className="truncate text-[15px] font-medium text-dark-text">{frame.title}</p>
+          <p className="label shrink-0 text-dark-soft">Fr. {frame.number}</p>
         </div>
-        <p className="label mt-2 !tracking-[0.08em] text-dark-soft">
+        <p className="label mt-2 truncate !tracking-[0.08em] text-dark-soft">
           {frame.stock} · {frame.year}
         </p>
       </figcaption>
@@ -41,7 +41,6 @@ function Frame({ frame, onOpen }) {
 export default function FilmLog() {
   const [stock, setStock] = useState('All')
   const [open, setOpen] = useState(null)
-  useScrollSnap()
 
   const visible = useMemo(
     () => (stock === 'All' ? frames : frames.filter((f) => f.stock === stock)),

@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import useScrollSnap from './hooks/useScrollSnap'
 import Home from './pages/Home'
 import Digital from './pages/Digital'
 import FilmLog from './pages/FilmLog'
@@ -10,7 +11,14 @@ import About from './pages/About'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  useEffect(() => window.scrollTo(0, 0), [pathname])
+  useEffect(() => {
+    // Instant, not smooth: html has scroll-behavior smooth, and an animated
+    // scroll-to-top gets stranded partway when the page transition swaps
+    // content mid-animation.
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    const id = requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+    return () => cancelAnimationFrame(id)
+  }, [pathname])
   return null
 }
 
@@ -23,6 +31,7 @@ const page = {
 export default function App() {
   const location = useLocation()
   const dark = ['/film', '/digital'].some((p) => location.pathname.startsWith(p))
+  useScrollSnap(dark)
 
   return (
     <div className={`grain flex min-h-screen flex-col ${dark ? 'bg-dark' : 'bg-paper'}`}>

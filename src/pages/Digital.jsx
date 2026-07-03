@@ -1,14 +1,8 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { plates, plateTaxa } from '../data/archive'
+import { plates, plateTaxa, dataLine } from '../data/archive'
 import Lightbox from '../components/Lightbox'
-import useScrollSnap, { snapTarget, snapStart } from '../hooks/useScrollSnap'
-
-function dataLine(p) {
-  const parts = [p.lens, p.aperture, p.shutter, `ISO ${p.iso}`]
-  if (p.stack && p.stack !== '1 frame') parts.push(p.stack.replace(' frames', '-frame stack'))
-  return parts.filter(Boolean).join(' · ')
-}
+import { snapTarget, snapStart } from '../hooks/useScrollSnap'
 
 function Plate({ plate, onOpen }) {
   return (
@@ -37,11 +31,14 @@ function Plate({ plate, onOpen }) {
       </button>
       <figcaption className="border-b border-dark-line pb-4 pt-3">
         <div className="flex items-baseline justify-between gap-3">
-          <p className="text-[15px] font-medium text-dark-text">{plate.common || plate.title}</p>
-          <p className="label text-dark-soft">Pl. {plate.number}</p>
+          <p className="truncate text-[15px] font-medium text-dark-text">
+            {plate.common || plate.title}
+          </p>
+          <p className="label shrink-0 text-dark-soft">Pl. {plate.number}</p>
         </div>
-        {plate.latin && <p className="binomial mt-0.5 text-sm text-dark-soft">{plate.latin}</p>}
-        <p className="label mt-2 !tracking-[0.08em] text-dark-soft">{dataLine(plate)}</p>
+        {/* Always rendered so every caption has the same height and rows align */}
+        <p className="binomial mt-0.5 text-sm text-dark-soft">{plate.latin || ' '}</p>
+        <p className="label mt-2 truncate !tracking-[0.08em] text-dark-soft">{dataLine(plate)}</p>
       </figcaption>
     </motion.figure>
   )
@@ -50,7 +47,6 @@ function Plate({ plate, onOpen }) {
 export default function Digital() {
   const [taxon, setTaxon] = useState('All')
   const [open, setOpen] = useState(null)
-  useScrollSnap()
 
   const visible = useMemo(
     () => (taxon === 'All' ? plates : plates.filter((p) => p.taxon === taxon)),
