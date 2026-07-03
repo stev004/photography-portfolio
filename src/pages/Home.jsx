@@ -96,7 +96,7 @@ export default function Home() {
               note="Macro and natural history in digital — arachnids, reptiles and flora, photographed close and identified where possible."
               count={`${plates.length} plates`}
               cover="/images/digital/macro/IMG_2378-Enhanced-NR.jpg"
-              ratio="50% 30%"
+              ratio="50% 68%"
             />
           </motion.div>
           <motion.div {...rise} transition={{ ...rise.transition, delay: 0.1 }}>
