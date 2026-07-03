@@ -10,6 +10,13 @@ export const snapTarget = {
   scrollMarginTop: `${SNAP_MARGIN}px`,
 }
 
+// The intro/header is a snap point too, aligned to the very top. Without this,
+// mandatory snapping has no valid rest at scroll=0 and jumps to the first
+// image on load, hiding the page header.
+export const snapStart = {
+  scrollSnapAlign: 'start',
+}
+
 // Enables y-mandatory scroll snapping on <html> while the page is mounted.
 export default function useScrollSnap() {
   useEffect(() => {

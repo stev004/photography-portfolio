@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { plates, plateTaxa } from '../data/archive'
 import Lightbox from '../components/Lightbox'
-import useScrollSnap, { snapTarget } from '../hooks/useScrollSnap'
+import useScrollSnap, { snapTarget, snapStart } from '../hooks/useScrollSnap'
 
 function dataLine(p) {
   const parts = [p.lens, p.aperture, p.shutter, `ISO ${p.iso}`]
@@ -59,7 +59,7 @@ export default function Digital() {
 
   return (
     <div className="mx-auto max-w-site px-5 text-dark-text md:px-10">
-      <section className="border-b border-dark-line pb-8 pt-12 md:pb-10 md:pt-20">
+      <section style={snapStart} className="border-b border-dark-line pb-8 pt-12 md:pb-10 md:pt-20">
         <p className="label text-ochre">No. 01 - Digital</p>
         <h1 className="mt-4 font-display text-4xl font-light tracking-tight md:text-6xl">
           Digital Archive
