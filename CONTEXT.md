@@ -39,7 +39,7 @@ src/
 │   ├── Footer.jsx
 │   └── Lightbox.jsx      Shared overlay: keyboard arrows/Escape, captions
 └── pages/
-    ├── Home.jsx          Hero, feature plate, two collection cards
+    ├── Home.jsx          Full-height split entry (Specimens / Film) + statement
     ├── Specimens.jsx     /specimens — masonry (CSS columns), taxa filters
     ├── FilmLog.jsx       /film — dark, film-stock filters
     └── About.jsx         /about — bio, kit list, contact
