@@ -41,8 +41,11 @@ src/
 └── pages/
     ├── Home.jsx          Full-height split entry (Specimens / Film) + statement
     ├── Digital.jsx       /digital — dark, uniform 3:4 grid, taxa filters
-    ├── FilmLog.jsx       /film — dark, masonry, film-stock filters
+    ├── FilmLog.jsx       /film — dark, uniform 3:4 grid, film-stock filters
     └── About.jsx         /about — bio, kit list, contact
+Both galleries share `hooks/useScrollSnap.js`: y-mandatory snap on <html>
+while mounted, each figure snap-align center / snap-stop always with a 69px
+scroll margin (the sticky header height). Accent on dark pages is ochre.
 ```
 
 Routes: `/`, `/digital` (`/specimens` redirects), `/film`, `/about`

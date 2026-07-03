@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { frames, filmStocks } from '../data/archive'
 import Lightbox from '../components/Lightbox'
+import useScrollSnap, { snapTarget } from '../hooks/useScrollSnap'
 
 function Frame({ frame, onOpen }) {
   return (
@@ -10,15 +11,18 @@ function Frame({ frame, onOpen }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="group mb-10 break-inside-avoid md:mb-12"
+      className="group"
+      style={snapTarget}
     >
-      <button onClick={onOpen} className="block w-full cursor-zoom-in overflow-hidden bg-dark-2 text-left">
+      <button
+        onClick={onOpen}
+        className="block aspect-[3/4] w-full cursor-zoom-in overflow-hidden bg-dark-2 text-left"
+      >
         <img
           src={frame.src}
           alt={frame.title}
           loading="lazy"
-          className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-          style={{ aspectRatio: frame.ratio }}
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         />
       </button>
       <figcaption className="border-b border-dark-line pb-4 pt-3">
@@ -37,6 +41,7 @@ function Frame({ frame, onOpen }) {
 export default function FilmLog() {
   const [stock, setStock] = useState('All')
   const [open, setOpen] = useState(null)
+  useScrollSnap()
 
   const visible = useMemo(
     () => (stock === 'All' ? frames : frames.filter((f) => f.stock === stock)),
@@ -74,7 +79,7 @@ export default function FilmLog() {
         </div>
       </section>
 
-      <section className="columns-1 gap-8 py-10 sm:columns-2 md:py-14 lg:columns-3">
+      <section className="grid grid-cols-1 gap-x-6 gap-y-10 py-10 sm:grid-cols-2 md:py-14 lg:grid-cols-3">
         {visible.map((f) => (
           <Frame key={f.id} frame={f} onOpen={() => setOpen(visible.indexOf(f))} />
         ))}

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { plates, plateTaxa } from '../data/archive'
 import Lightbox from '../components/Lightbox'
+import useScrollSnap, { snapTarget } from '../hooks/useScrollSnap'
 
 function dataLine(p) {
   const parts = [p.lens, p.aperture, p.shutter, `ISO ${p.iso}`]
@@ -17,6 +18,7 @@ function Plate({ plate, onOpen }) {
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="group"
+      style={snapTarget}
     >
       <button
         onClick={onOpen}
@@ -48,6 +50,7 @@ function Plate({ plate, onOpen }) {
 export default function Digital() {
   const [taxon, setTaxon] = useState('All')
   const [open, setOpen] = useState(null)
+  useScrollSnap()
 
   const visible = useMemo(
     () => (taxon === 'All' ? plates : plates.filter((p) => p.taxon === taxon)),
@@ -57,7 +60,7 @@ export default function Digital() {
   return (
     <div className="mx-auto max-w-site px-5 text-dark-text md:px-10">
       <section className="border-b border-dark-line pb-8 pt-12 md:pb-10 md:pt-20">
-        <p className="label text-sage">No. 01 - Digital</p>
+        <p className="label text-ochre">No. 01 - Digital</p>
         <h1 className="mt-4 font-display text-4xl font-light tracking-tight md:text-6xl">
           Digital Archive
         </h1>
@@ -74,11 +77,11 @@ export default function Digital() {
                 onClick={() => setTaxon(t)}
                 className={`label min-h-[44px] transition-colors ${
                   taxon === t
-                    ? 'text-dark-text underline decoration-sage underline-offset-8'
+                    ? 'text-dark-text underline decoration-ochre underline-offset-8'
                     : 'text-dark-soft hover:text-dark-text'
                 }`}
               >
-                {t} <span className="text-sage">{n}</span>
+                {t} <span className="text-ochre">{n}</span>
               </button>
             )
           })}

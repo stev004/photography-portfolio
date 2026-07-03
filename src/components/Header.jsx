@@ -35,11 +35,7 @@ export default function Header() {
               className={({ isActive }) =>
                 `label pb-1 transition-colors ${
                   isActive
-                    ? `border-b ${
-                        dark
-                          ? `${pathname.startsWith('/film') ? 'border-ochre' : 'border-sage'} text-dark-text`
-                          : 'border-moss text-ink'
-                      }`
+                    ? `border-b ${dark ? 'border-ochre text-dark-text' : 'border-moss text-ink'}`
                     : dark
                       ? 'text-dark-soft hover:text-dark-text'
                       : 'text-ink-soft hover:text-ink'

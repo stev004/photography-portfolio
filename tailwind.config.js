@@ -18,7 +18,6 @@ export default {
         'ink-soft': '#6E6A61',
         line: '#E2DFD8',
         moss: '#4C5840',
-        sage: '#9AAB85',
         ochre: '#A87B2E',
         // darkroom (film section)
         dark: '#191712',
