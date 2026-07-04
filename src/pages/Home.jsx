@@ -86,7 +86,7 @@ export default function Home() {
         className="mx-auto flex max-w-site flex-col gap-6 px-5 py-14 md:flex-row md:items-baseline md:justify-between md:px-10 md:py-20"
       >
         <div>
-          <p className="label text-moss">Field Archive - Jersey, Channel Islands</p>
+          <p className="label text-moss">Matson Studios - Jersey, Channel Islands</p>
           <p className="mt-5 max-w-2xl font-display text-2xl font-light leading-snug tracking-tight md:text-3xl">
             Photographs made in the field, mostly in Jersey - informed by a
             background in biology and a habit of looking under things.

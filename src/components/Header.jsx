@@ -19,12 +19,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-site items-baseline justify-between gap-4 px-5 py-4 md:px-10 md:py-5">
         <Link to="/" className="group flex items-baseline gap-3 md:gap-4">
           <span className="font-display text-lg font-medium leading-none tracking-tight md:text-xl">
-            Steven Matson
-          </span>
-          <span
-            className={`label hidden pb-px sm:inline ${dark ? 'text-dark-soft' : 'text-ink-soft'}`}
-          >
-            Field Archive
+            Matson Studios
           </span>
         </Link>
         <nav className="flex items-baseline gap-5 md:gap-8">
