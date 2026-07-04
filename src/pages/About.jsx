@@ -7,8 +7,18 @@ const rise = {
   transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
 }
 
+// Value is a string (rendered inline) or an array (stacked, one per line).
 const kit = [
-  ['Digital', 'Canon R7 · Laowa 100mm CA-Dreamer 2× macro · reversed 24mm EF-S STM'],
+  ['Digital', 'Canon R7 · Canon 200D'],
+  [
+    'Lenses',
+    [
+      'Laowa 100mm CA-Dreamer 2× macro',
+      'Laowa 25mm f/2.8 2.5-5× ultra macro',
+      'Sigma 18-200mm f/3.5-6.3 DC OS HSM',
+      'Reversed 24mm EF-S STM',
+    ],
+  ],
   ['Film', 'Nikon F2 · Olympus mju-II'],
   ['Stocks', 'Portra 400 · ColorPlus 200 · Gold 200 · Fujicolor 200 · CineStill 800T'],
 ]
@@ -38,10 +48,20 @@ export default function About() {
             {kit.map(([k, v]) => (
               <div
                 key={k}
-                className="flex flex-col gap-1 border-b border-line py-4 md:flex-row md:items-baseline md:gap-8"
+                className="flex flex-col gap-1 border-b border-line py-4 md:flex-row md:gap-8"
               >
-                <span className="label w-24 shrink-0 text-ink-soft">{k}</span>
-                <span className="font-mono text-[13px] text-ink">{v}</span>
+                <span className="label w-24 shrink-0 pt-0.5 text-ink-soft">{k}</span>
+                {Array.isArray(v) ? (
+                  <div className="space-y-1.5">
+                    {v.map((item) => (
+                      <p key={item} className="font-mono text-[13px] leading-snug text-ink">
+                        {item}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="font-mono text-[13px] text-ink">{v}</span>
+                )}
               </div>
             ))}
           </div>

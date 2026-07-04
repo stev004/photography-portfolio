@@ -24,9 +24,17 @@ function ScrollToTop() {
 }
 
 const page = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
+  initial: { opacity: 0, y: 14 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -10,
+    transition: { duration: 0.32, ease: [0.4, 0, 0.2, 1] },
+  },
 }
 
 export default function App() {
@@ -45,7 +53,11 @@ function Site() {
   useScrollSnap(dark)
 
   return (
-    <div className={`grain flex min-h-screen flex-col ${dark ? 'bg-dark' : 'bg-paper'}`}>
+    <div
+      className={`grain flex min-h-screen flex-col transition-colors duration-700 ease-out ${
+        dark ? 'bg-dark' : 'bg-paper'
+      }`}
+    >
       <ScrollToTop />
       <Header />
       <AnimatePresence mode="wait">
