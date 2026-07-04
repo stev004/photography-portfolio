@@ -108,25 +108,34 @@ function parseStock(format = '') {
   return raw.replace(/colorplus/i, 'ColorPlus')
 }
 
-export const plates = digitalPhotos.map((p, i) => {
-  const { common, latin } = parseSubject(p.subject)
-  return {
+// Builders take raw photo arrays so admin-panel overrides (order + edited
+// metadata from localStorage) flow through the same derivations.
+export function buildPlates(photos) {
+  return photos.map((p, i) => {
+    const { common, latin } = parseSubject(p.subject)
+    return {
+      ...p,
+      number: String(i + 1).padStart(2, '0'),
+      ratio: ratioOf(p.src),
+      common,
+      latin,
+      taxon: taxonOf(p.subject, p.category),
+    }
+  })
+}
+
+export function buildFrames(photos) {
+  return photos.map((p, i) => ({
     ...p,
     number: String(i + 1).padStart(2, '0'),
     ratio: ratioOf(p.src),
-    common,
-    latin,
-    taxon: taxonOf(p.subject, p.category),
-  }
-})
+    stock: parseStock(p.format),
+  }))
+}
 
-export const frames = filmPhotos.map((p, i) => ({
-  ...p,
-  number: String(i + 1).padStart(2, '0'),
-  ratio: ratioOf(p.src),
-  stock: parseStock(p.format),
-}))
+export const taxaOf = (ps) => ['All', ...new Set(ps.map((p) => p.taxon))]
+export const stocksOf = (fs) => ['All', ...new Set(fs.map((f) => f.stock))]
 
-export const plateTaxa = ['All', ...[...new Set(plates.map((p) => p.taxon))]]
-export const filmStocks = ['All', ...[...new Set(frames.map((f) => f.stock))]]
-export const filmYears = [...new Set(frames.map((f) => f.year))].sort().reverse()
+// Defaults (no admin overrides) - used where live data isn't needed, e.g. counts.
+export const plates = buildPlates(digitalPhotos)
+export const frames = buildFrames(filmPhotos)

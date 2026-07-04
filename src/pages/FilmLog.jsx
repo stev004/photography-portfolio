@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { frames, filmStocks } from '../data/archive'
+import { buildFrames, stocksOf } from '../data/archive'
 import Lightbox from '../components/Lightbox'
+import { useAdmin } from '../components/AdminPanel'
 import { snapTarget, snapStart } from '../hooks/useScrollSnap'
 
 function Frame({ frame, onOpen }) {
@@ -41,10 +42,13 @@ function Frame({ frame, onOpen }) {
 export default function FilmLog() {
   const [stock, setStock] = useState('All')
   const [open, setOpen] = useState(null)
+  const { filmData } = useAdmin()
 
+  const frames = useMemo(() => buildFrames(filmData), [filmData])
+  const filmStocks = useMemo(() => stocksOf(frames), [frames])
   const visible = useMemo(
     () => (stock === 'All' ? frames : frames.filter((f) => f.stock === stock)),
-    [stock]
+    [stock, frames]
   )
 
   return (

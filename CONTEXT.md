@@ -64,8 +64,11 @@ House style: plain hyphens in all site copy — no en/em dashes.
 - Taxa filters (Arachnida / Reptilia / Flora / …) are inferred from the
   `subject` field by keyword in `archive.js`.
 - Film stock is parsed from the `format` field; year comes straight from data.
-- The old admin panel (type "admin", localStorage overrides) was removed in
-  this redesign; `photos.js` is edited directly.
+- The admin panel is back (restored from master): type "admin" anywhere,
+  credentials admin/admin. Edits and reordering persist to localStorage and
+  flow through `buildPlates`/`buildFrames` in `archive.js` into the galleries.
+  "Export JS" copies a photos.js-ready array. Note: localStorage overrides
+  shadow later photos.js edits on that browser - use Reset to re-sync.
 - 7 images exist on disk but have no entry in `photos.js` (3 nature, 3 macro,
   1 film) — add entries there to surface them.
 

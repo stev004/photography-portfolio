@@ -1,10 +1,21 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { plates, plateTaxa, dataLine } from '../data/archive'
+import { buildPlates, taxaOf, dataLine } from '../data/archive'
 import Lightbox from '../components/Lightbox'
+import { useAdmin } from '../components/AdminPanel'
 import { snapTarget, snapStart } from '../hooks/useScrollSnap'
 
+// Species plates lead with the common name over the Latin binomial; plates
+// without a species ID (e.g. coastal scenes) lead with the title over the
+// subject description.
+function captionParts(p) {
+  if (p.latin) return { name: p.common || p.title, detail: p.latin }
+  const detail = p.common && p.common !== p.title ? p.common : ' '
+  return { name: p.title || p.common, detail }
+}
+
 function Plate({ plate, onOpen }) {
+  const { name, detail } = captionParts(plate)
   return (
     <motion.figure
       initial={{ opacity: 0, y: 16 }}
@@ -31,13 +42,11 @@ function Plate({ plate, onOpen }) {
       </button>
       <figcaption className="border-b border-dark-line pb-4 pt-3">
         <div className="flex items-baseline justify-between gap-3">
-          <p className="truncate text-[15px] font-medium text-dark-text">
-            {plate.common || plate.title}
-          </p>
+          <p className="truncate text-[15px] font-medium text-dark-text">{name}</p>
           <p className="label shrink-0 text-dark-soft">Pl. {plate.number}</p>
         </div>
         {/* Always rendered so every caption has the same height and rows align */}
-        <p className="binomial mt-0.5 text-sm text-dark-soft">{plate.latin || ' '}</p>
+        <p className="binomial mt-0.5 truncate text-sm text-dark-soft">{detail}</p>
         <p className="label mt-2 truncate !tracking-[0.08em] text-dark-soft">{dataLine(plate)}</p>
       </figcaption>
     </motion.figure>
@@ -47,10 +56,13 @@ function Plate({ plate, onOpen }) {
 export default function Digital() {
   const [taxon, setTaxon] = useState('All')
   const [open, setOpen] = useState(null)
+  const { digitalData } = useAdmin()
 
+  const plates = useMemo(() => buildPlates(digitalData), [digitalData])
+  const plateTaxa = useMemo(() => taxaOf(plates), [plates])
   const visible = useMemo(
     () => (taxon === 'All' ? plates : plates.filter((p) => p.taxon === taxon)),
-    [taxon]
+    [taxon, plates]
   )
 
   return (
@@ -95,15 +107,18 @@ export default function Digital() {
         index={open}
         onClose={() => setOpen(null)}
         onIndex={setOpen}
-        renderCaption={(p) => (
-          <>
-            <p className="text-sm text-paper">
-              {p.common || p.title}
-              {p.latin && <span className="binomial text-paper/60"> - {p.latin}</span>}
-            </p>
-            <p className="label mt-2 !tracking-[0.08em] text-paper/50">{dataLine(p)}</p>
-          </>
-        )}
+        renderCaption={(p) => {
+          const { name, detail } = captionParts(p)
+          return (
+            <>
+              <p className="text-sm text-paper">
+                {name}
+                {detail.trim() && <span className="binomial text-paper/60"> - {detail}</span>}
+              </p>
+              <p className="label mt-2 !tracking-[0.08em] text-paper/50">{dataLine(p)}</p>
+            </>
+          )
+        }}
       />
     </div>
   )

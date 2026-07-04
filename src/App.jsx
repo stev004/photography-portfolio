@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import { AdminProvider, AdminLogin, AdminPanel } from './components/AdminPanel'
 import useScrollSnap from './hooks/useScrollSnap'
 import Home from './pages/Home'
 import Digital from './pages/Digital'
@@ -29,6 +30,16 @@ const page = {
 }
 
 export default function App() {
+  return (
+    <AdminProvider>
+      <AdminLogin />
+      <AdminPanel />
+      <Site />
+    </AdminProvider>
+  )
+}
+
+function Site() {
   const location = useLocation()
   const dark = ['/film', '/digital'].some((p) => location.pathname.startsWith(p))
   useScrollSnap(dark)
