@@ -60,7 +60,7 @@ export default function Home() {
           index="No. 01 - Digital"
           title="Digital"
           note="Macro & natural history - arachnids, reptiles and flora, identified where possible."
-          count={`${plates.length} plates`}
+          count={`${plates.length} frames`}
           image="/images/digital/macro/IMG_2851-2-Enhanced-NR.jpg"
           position="70% 62%"
           hovered={hovered}

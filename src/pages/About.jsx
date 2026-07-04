@@ -29,12 +29,6 @@ export default function About() {
               places around them, and whatever else the island offers.
             </p>
             <p>
-              The work is informed by a background in biology and spider
-              ecology. Where I can identify a species, I do; where behaviour or
-              habitat is interesting, it goes in the notes. No art-speak - the
-              pictures and the natural history carry it.
-            </p>
-            <p>
               Alongside the macro work I keep a 35mm film log: streets, travel,
               and cars, shot on a Nikon F2 and an Olympus mju-II.
             </p>
@@ -70,17 +64,17 @@ export default function About() {
         >
           <div className="overflow-hidden bg-parchment">
             <img
-              src="/images/digital/macro/IMG_1903-Enhanced-NR.jpg"
-              alt="Jumping spider, 40-frame focus stack"
+              src="/images/digital/macro/IMG_2861-2.jpg"
+              alt="King cobra"
               className="w-full object-cover"
-              style={{ aspectRatio: '1500 / 1806' }}
+              style={{ aspectRatio: '1333 / 2000' }}
             />
           </div>
-          <div className="flex items-baseline justify-between pt-3">
+          <div className="pt-3">
             <p className="text-sm">
-              Jumping spider - <span className="binomial text-ink-soft">Salticidae</span>
+              King cobra - <span className="binomial text-ink-soft">Ophiophagus hannah</span>
             </p>
-            <p className="label text-ink-soft">40-frame stack</p>
+            <p className="label mt-1 text-ink-soft">18-200mm · f/6.3</p>
           </div>
         </motion.div>
       </div>
