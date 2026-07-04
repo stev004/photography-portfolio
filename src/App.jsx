@@ -38,6 +38,19 @@ const page = {
 }
 
 export default function App() {
+  // Deter casual image saving: block right-click menu and drag on images.
+  useEffect(() => {
+    const block = (e) => {
+      if (e.target.tagName === 'IMG') e.preventDefault()
+    }
+    document.addEventListener('contextmenu', block)
+    document.addEventListener('dragstart', block)
+    return () => {
+      document.removeEventListener('contextmenu', block)
+      document.removeEventListener('dragstart', block)
+    }
+  }, [])
+
   return (
     <AdminProvider>
       <AdminLogin />

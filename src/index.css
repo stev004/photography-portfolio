@@ -13,8 +13,14 @@
   ::selection {
     @apply bg-moss text-paper;
   }
+  /* Casual-copy deterrent: block drag, native long-press save menu (iOS)
+     and text/image selection. Not real protection - DevTools/screenshots
+     still work - but stops right-click and long-press "save image". */
   img {
     -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
 }
 
