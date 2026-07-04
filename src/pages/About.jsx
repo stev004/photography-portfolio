@@ -12,12 +12,7 @@ const kit = [
   ['Digital', 'Canon R7 · Canon 200D'],
   [
     'Lenses',
-    [
-      'Laowa 100mm CA-Dreamer 2× macro',
-      'Laowa 25mm f/2.8 2.5-5× ultra macro',
-      'Sigma 18-200mm f/3.5-6.3 DC OS HSM',
-      'Reversed 24mm EF-S STM',
-    ],
+    'Laowa 100mm CA-Dreamer 2× macro · Laowa 25mm f/2.8 2.5-5× ultra macro · Sigma 18-200mm f/3.5-6.3 DC OS HSM · Reversed 24mm EF-S STM',
   ],
   ['Film', 'Nikon F2 · Olympus mju-II'],
   ['Stocks', 'Portra 400 · ColorPlus 200 · Gold 200 · Fujicolor 200 · CineStill 800T'],
