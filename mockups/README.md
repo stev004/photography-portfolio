@@ -19,7 +19,7 @@ poster (The Salticids).
 - **Edition 02 — Eight Eyes**: the all-spider show (9 works, one dark room).
 - **Edition 03 — Vivarium**: reptile-house portraits (6 works, dark room).
 - **Edition 04 — Roads South**: the 35mm diary hung as one day of light (11 works).
-- **Edition 05 — Paddock**: motor-event pop-up on scaffold &amp; ply (6 works).
+- **Edition 05 — Paddock**: motor-event pop-up on scaffold & ply (6 works).
 - **The Season**: census of the full archive grouped into six possible shows
   (Field Work, Eight Eyes, Roads South, Vivarium, Hortus, Paddock) with
   readiness ratings.
