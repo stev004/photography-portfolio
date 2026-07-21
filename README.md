@@ -1,16 +1,51 @@
-# React + Vite
+# Matson Studios — Photography Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio site for Steven Matson (Jersey, Channel Islands): macro and
+wildlife photography — spiders, reptiles, botanicals — alongside a 35mm
+film diary of travel, cars and street.
 
-Currently, two official plugins are available:
+**Live site:** [matson-studios.vercel.app](https://matson-studios.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+React + Vite, Tailwind CSS. Deployed on Vercel.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build to dist/
+```
 
-## Expanding the ESLint configuration
+## Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Path | What it is |
+|------|------------|
+| `src/data/photos.js` | Photo metadata — titles, species, lens/shutter/aperture/ISO, film stocks |
+| `src/data/archive.js` | Field-archive data |
+| `public/images/` | Digital (macro, nature) and film (35mm) photographs |
+| `mockups/` | **Print & exhibition mockups** — see below |
+| `BRAND.md` | Brand voice, caption templates, hashtag pools, social pipeline plan |
+| `content-pipeline/` | Social content generation script + outputs |
+| `CONTEXT.md` | Project context notes |
+
+## Mockups
+
+`mockups/` holds three self-contained HTML pages (images embedded — open
+directly in a browser):
+
+- **[print-room.html](mockups/print-room.html)** — sixteen print
+  treatments built from the archive's best frames: magazine covers,
+  posters, a broadsheet, an LP sleeve, a book jacket, botanical plates, a
+  coffee label, a film one-sheet, a gig poster and more.
+- **[the-hang.html](mockups/the-hang.html)** — five full exhibition mocks
+  rendered wall-by-wall to scale (Field Work, Eight Eyes, Vivarium, Roads
+  South, Paddock), plus floor plan, hang list, pricing and a practical
+  gallery run-through.
+- **[second-edit.html](mockups/second-edit.html)** — a census of the
+  desktop film archive (reference notes).
+
+See [mockups/README.md](mockups/README.md) for the full piece list.
+
+---
+
+All photographs © Steven Matson. All rights reserved.
